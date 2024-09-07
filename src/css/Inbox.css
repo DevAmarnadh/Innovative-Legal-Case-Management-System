@@ -1,0 +1,216 @@
+/* Inbox.css */
+
+/* General styles */
+.inbox-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inbox-heading {
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 0;
+  text-align: center;
+}
+
+/* Style for scrollbar */
+.inbox-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.inbox-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.inbox-container::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+.inbox-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Message styles */
+.message {
+  max-width: 50rem;
+  width: 100%;
+  border-radius: 15px;
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: #f9f9f9;
+  color: black;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s, transform 0.3s;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.message:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.message-sender, .message-details, .message-timestamp {
+  margin-bottom: 5px;
+}
+
+.message-timestamp {
+  font-size: 12px;
+  color: #666;
+}
+
+.file-links a {
+  text-decoration: none;
+  color: blue;
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  width: 80%;
+  max-width: 500px;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+h3 {
+  margin-top: 0;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  resize: none;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.modal-buttons {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.modal-buttons button {
+  margin-right: 10px;
+}
+
+.modal-buttons button:last-child {
+  margin-right: 0;
+}
+
+/* Message type styles */
+.req-message {
+  background-color: #f0f8ff; /* Alice blue */
+  border-left: 5px solid #007bff;
+}
+
+.hearing-message {
+  background-color: #f0f8ff; /* Alice blue */
+  border-left: 5px solid #28a745;
+}
+
+.case-taken-message {
+  background-color: #f0f8ff; /* Mint cream */
+  border-left: 5px solid #28a745;
+}
+
+.inbox-bn{
+  width: 6rem;
+  font-size: medium;
+
+}
+.addhear-bn{
+  width: 11.5rem;
+  font-size: medium;
+}
+
+/* Media query for mobile view */
+@media screen and (max-width: 768px) {
+  /* Adjust styles for smaller screens */
+  .inbox-container {
+    margin-top: 10px; /* Decrease top margin */
+  }
+
+  .inbox-bn{
+    margin-left: 5px;
+  }
+  .inbox-heading {
+    padding: 8px 0; /* Decrease padding */
+    font-size: 18px; /* Decrease font size */
+  }
+
+  .message {
+    max-width: 85%; /* Adjust message width for smaller screens */
+  }
+
+  .message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px; /* Add space above the message timestamp */
+  }
+
+  .message-sender, .message-details {
+    margin: 5px;
+  }
+
+  .message-timestamp {
+    align-self: flex-start; /* Align timestamp to start */
+    margin-top: 30px; /* Adjust margin */
+    margin: 5px;
+  }
+
+  .file-links a {
+    text-decoration: none; /* Remove underline */
+    color: blue;
+  }
+}

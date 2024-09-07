@@ -1,0 +1,182 @@
+.case-container {
+  border: 1px solid #e6e6e6;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #f9f9f9; /* Light background color */
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+  box-shadow: 10px 16px 32px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
+  border-left: 5px solid #007bff; /* Adding left border */
+
+}
+
+/* Blue theme for the case containers */
+.case-container:hover {
+  background-color: #e0f5ff; /* Light blue background color on hover */
+}
+
+/* Define hover animation for better interaction */
+.case-container:hover {
+  transform: translateY(-5px); /* Move the container slightly upwards on hover */
+  box-shadow: 10px 8px 8px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+}
+  .case-item {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 20px;
+    top:10px;
+    border-left: 5px solid #007bff; /* Adding left border */
+
+  }
+  
+  .case-details {
+    margin-bottom: 10px;
+  }
+  
+  .case-actions {
+    margin-top: 10px;
+  }
+  
+  .case-actions button {
+    margin-right: 10px;
+  }
+
+  .delete-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .delete-modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  .delete-modal-content h3 {
+    margin-top: 0;
+  }
+  
+  .delete-modal-content p {
+    margin-bottom: 20px;
+  }
+  
+  .delete-modal-content button {
+    margin: 10px;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+  
+  .delete-modal-content button:first-child {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+  }
+  
+  .delete-modal-content button:last-child {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+  }
+  
+  .delete-modal-content button:hover {
+    opacity: 0.8;
+  }
+  
+
+  .wanted-level {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .wanted-level img {
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+  }
+  
+  .cancel-btn{
+    margin-left: 10px;
+  }
+  .input-field {
+    margin-right: 20px; /* Add margin to the right of the input fields */
+    flex: 1; /* Allow input fields to grow and take available space */
+  }
+  .file-link {
+    color: blue; /* Change the color of the file link when hovering over the file item */
+    /* Add any other styles you want to apply */
+    margin-right: 20px;
+  }
+  .file-link:hover {
+    background-color:rgba(0, 0, 0, 0);
+    color: blue;
+  }
+
+  .files-title{
+    margin:0;
+  }
+  .edit-case-title{
+    font-size: 1.8rem;
+  }
+ /* Media query for mobile view */
+@media screen and (max-width: 768px) {
+  .case-container {
+    position: relative; /* Ensure proper containment */
+    z-index: 1; /* Ensure the container appears above other content */
+  }
+
+  .case-item {
+    padding: 15px; /* Decrease padding for case items on smaller screens */
+  }
+
+  .case-actions {
+    margin-top: 5px; /* Decrease margin-top for case actions on smaller screens */
+  }
+
+  .case-actions button {
+    margin-right: 5px; /* Decrease margin-right for case action buttons on smaller screens */
+  }
+
+  .input-field {
+    width: calc(100% - 20px); /* Set input field width to fill available space */
+    margin-bottom: 10px; /* Add margin-bottom for spacing between input fields */
+  }
+  h4{
+    margin:0;
+  }
+  
+  .wanted-level {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+    font-weight: bold;
+  }
+  
+  .wanted-level img {
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+  }
+  .delete-modal{
+    z-index: 1000000;
+  }
+  .delete-modal-content {
+    max-width: 300px;
+  }
+}

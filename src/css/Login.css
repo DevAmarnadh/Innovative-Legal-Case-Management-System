@@ -1,0 +1,280 @@
+
+@import url(https://fonts.googleapis.com/css?family=Lato:300,700,300italic);
+
+html,body{
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: url('../components/Assets/wallpaper.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+.outer-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 13rem;
+  bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px; /* Adjust the padding as needed */
+  border: 2px solid;
+  border-image: linear-gradient(to right, #ff00ff, #00ffff, #ff00ff);
+  border-radius: 10px; /* Adjust the border radius as needed */
+  box-shadow: 10px 16px 32px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
+  background-color: rgba(255, 255, 255, 0.25); /* Semi-transparent background */
+  backdrop-filter: blur(10px); /* Apply blur effect */
+  border: 1px solid rgba(255, 255, 255, 0.7); /* Light border */
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+  overflow: hidden; /* Clip content to the box */
+  z-index: 9999; /* Ensure the container appears above other elements */
+  position: fixed; /* Fix the container in position */
+  width: 100%;
+  max-width: 260px; /* Set maximum width for better readability */
+  text-align: center; /* Center text content */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for transform and box-shadow */
+}
+
+
+.login-container:hover {
+  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.5); /* Enhance shadow on hover */
+}
+
+.justiceTitleLogin {
+  font-family: 'Raleway', sans-serif; /* Apply the same font as before */
+  font-size: 3.5rem; /* Adjust the font size as needed */
+  font-weight: 700; /* Use bold font weight */
+  color: #fff; /* Dark color */
+  text-align: center; /* Center align the text */
+  margin-bottom: 20px; /* Add some space below */
+  text-transform: uppercase; /* Convert text to uppercase */
+  letter-spacing: 2px; /* Add letter spacing for better readability */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow effect */
+  position: absolute;
+  top: 47%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+}
+
+.sloganLogin {
+  font-family: 'Raleway', sans-serif; /* Apply the same font as before */
+  font-size: 1.5rem; /* Adjust the font size as needed */
+  font-weight: 500; /* Use bold font weight */
+  color: #fff; /* Dark color */
+  text-align: center; /* Center align the text */
+  margin-top: 44px; /* Add some space above */
+  text-transform: uppercase; /* Convert text to uppercase */
+  letter-spacing: 2px; /* Add letter spacing for better readability */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow effect */
+  position: absolute;
+  top: calc(50% + 2rem); /* Position below the title */
+  left: 21.2%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+.sloganLogin1 {
+  font-family: 'Raleway', sans-serif; /* Apply the same font as before */
+  font-size: 1.5rem; /* Adjust the font size as needed */
+  font-weight: 500; /* Use bold font weight */
+  color: #fff; /* Dark color */
+  text-align: center; /* Center align the text */
+  margin-top: 60px; /* Add some space above */
+  text-transform: uppercase; /* Convert text to uppercase */
+  letter-spacing: 2px; /* Add letter spacing for better readability */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow effect */
+  position: absolute;
+  top: calc(50% + 1rem); /* Position below the title */
+  left: 43%;
+  transform: translate(-50%, -50%);
+   white-space: nowrap; /* Prevent text from wrapping */
+}
+
+
+
+.img-container {
+  display: flex;
+  justify-content: center; /* Center the image horizontally */
+}
+
+.img {
+  width: 120px;
+  height: auto;
+  position: relative;
+  right: 305px;
+  top:200px;
+}
+
+.login-form {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.input-field1 {
+    margin-bottom: 10px;
+    width: 300px;
+  }
+
+  .input-field2 {
+    margin-bottom: 10px;
+    width: 300px;
+    top:10px;
+  }
+
+  .toggle-password {
+    position: absolute;
+    top: 70%;
+    right: 30px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+
+.eye-icon {
+    max-width: 24px;
+    height: auto;
+    cursor: pointer;
+}
+
+.register-link {
+    cursor: pointer;
+    color: blue;
+}
+
+.password-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+h1 {
+  font-size: 2.5rem; /* Adjust the font size as needed */
+  font-family: 'Raleway', sans-serif; /* Use Raleway font */
+  font-weight: 700; /* Use bold font weight */
+  color: #333333; /* Dark color */
+  text-align: center; /* Center align the text */
+  margin-bottom: 20px; /* Add some space below */
+  text-transform: uppercase; /* Convert text to uppercase */
+  letter-spacing: 2px; /* Add letter spacing for better readability */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow effect */
+}
+.note{
+  color: white;
+}
+
+@media only screen and (max-width: 600px) {
+  .img-container {
+    display: flex;
+    justify-content: center; /* Center the image horizontally */
+  }
+  
+  .img {
+    top:145px;
+    left: 0px;
+    width: 80%; /* Adjust the width to make it responsive */
+    max-width:65px; /* Set a maximum width */
+    max-height: 65px;
+    position: relative;
+    margin-top: -110px; /* Move the image 50px up */
+  }
+
+  .justiceTitleLogin {
+    font-size: 2.3rem;
+    top: 5.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    right: initial;
+    white-space: nowrap; /* Ensure the text is displayed on a single line */
+}
+.sloganLogin {
+  font-size: 0.8rem;
+    top: calc(0rem + 0rem - 0px); /* Move it up by 20px */
+    left: 50%;
+    transform: translateX(-50%);
+    right: initial;
+    margin-top: 160px; /* Reduce top margin */
+    margin-bottom: 4px; /* Reduce bottom margin */
+    height: 2rem; /* Set the height for two lines of text */
+    line-height: 1rem; /* Adjust line height for two lines of text */
+    white-space: nowrap;
+}
+.sloganLogin1 {
+  font-size: 0.8rem;
+    top: calc(0rem + 0rem - 20px); /* Adjust top position */
+    left: 50%;
+    transform: translateX(-50%);
+    right: initial;
+    margin-top: 200px; /* Reduce top margin */
+    margin-bottom: 4px; /* Reduce bottom margin */
+    height: 2rem; /* Set the height for two lines of text */
+    line-height: 1rem; /* Adjust line height for two lines of text */
+    white-space: nowrap; 
+}
+
+.login-heading {
+  font-size: 1.8rem; /* Adjust the font size as needed */
+  font-family: 'Raleway', sans-serif; /* Use Raleway font */
+  font-weight: 700; /* Use bold font weight */
+  color: #333333; /* Dark color */
+  text-align: center; /* Center align the text */
+  margin:1px;
+  bottom: 10px;
+  text-transform: uppercase; /* Convert text to uppercase */
+  letter-spacing: 2px; /* Add letter spacing for better readability */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow effect */
+}
+
+  .outer-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* Stack child elements vertically */
+  }
+
+  .header-container-login {
+    margin-bottom: 20px; /* Add space between header and login container */
+  }
+
+  .login-container {
+    padding: 20px; /* Adjust padding for smaller screens */
+    width: 90%; /* Adjust width for smaller screens */
+    max-width: 230px; /* Set maximum width for better readability */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Center the container */
+  }
+  
+
+  
+  .login-container:hover {
+    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.5); /* Enhance shadow on hover */
+  }
+
+  .img {
+    width: 80px; /* Decrease image size for smaller screens */
+    margin-bottom: 20px; /* Add some space below the image */
+  }
+
+  .input-field1,
+  .input-field2 {
+    width: 100%; /* Make input fields full width */
+    max-width: 300px; /* Decrease maximum width for better fit */
+    margin-bottom: 20px; /* Add space below the input fields */
+  }
+
+  .toggle-password {
+    right: 10px; /* Adjust the position of the toggle password button */
+  }
+}

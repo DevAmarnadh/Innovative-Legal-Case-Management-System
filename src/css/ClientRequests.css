@@ -1,0 +1,144 @@
+.client-requests-container {
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 10px 16px 32px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
+    transition: box-shadow 0.3s ease; /* Add smooth transition for hover effect */
+    border-radius: 10px; /* Adjust the border radius as needed */    
+  }
+  .request-form:hover{
+    box-shadow: 10px 8px 8px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+
+  }
+  
+  .request-form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid #007bff; /* Adding left border */
+
+  }
+  
+  .input-field {
+    margin-bottom: 20px;
+  }
+  
+  .input-field label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .input-field input,
+  .input-field textarea,
+  .input-field select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .buttons button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .buttons button:hover {
+    background-color: #0056b3;
+  }
+
+  #request-message{
+    width:537px;
+  }
+
+  .page-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: transparent; /* Adjust the background color as needed */
+    padding: 10px; /* Adjust the padding as needed */
+    text-align: center; /* Align text to center */
+    font-size: 12px;
+    font-weight: normal;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for visual separation */
+    white-space: nowrap; /* Prevent text wrapping */
+  }
+  .msg{
+    font-size: 15px;
+  font-weight: normal;
+  color: #fff;
+  }
+  
+  
+  
+  
+
+  /* Media query for mobile view */
+@media screen and (max-width: 768px) {
+  /* Adjust styles for smaller screens */
+  .client-requests-container {
+    max-width: 90%; /* Decrease max-width */
+    margin-top: 20px; /* Add top margin */
+    box-shadow: 10px 16px 32px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
+    transition: box-shadow 0.3s ease; /* Add smooth transition for hover effect */
+    border-radius: 10px; /* Adjust the border radius as needed */    
+  }
+  .client-requests-container:hover{
+    box-shadow: 10px 8px 8px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+
+  }
+
+  .request-form {
+    padding: 15px; /* Decrease padding */
+  }
+  
+  .input-field {
+    margin-bottom: 15px; /* Decrease bottom margin */
+    max-width: 100%;
+  }
+
+  .buttons button {
+    padding: 8px 15px; /* Decrease padding for buttons */
+    font-size: 14px; /* Decrease font size for buttons */
+  }
+
+  .page-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 95%; /* Set the width to 100% */
+    background-color: transparent; /* Adjust the background color as needed */
+    padding: 10px; /* Adjust the padding as needed */
+    text-align: center; /* Align text to center */
+    font-size: 12px;
+    font-weight: normal;
+    color: #333; /* Adjust the text color as needed */
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for visual separation */
+    overflow: hidden; /* Prevent content from overflowing */
+    white-space: nowrap; /* Prevent text wrapping */
+  }
+  
+  .page-footer h7 {
+    display: inline-block;
+    vertical-align: middle;
+    white-space: normal; /* Allow text to wrap */
+    font-weight: 500;
+  }
+  
+  
+
+
+  
+  
+}

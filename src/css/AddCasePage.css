@@ -1,0 +1,98 @@
+.add-case-page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  transition: box-shadow 0.3s ease;
+  border-radius: 15px;
+  box-shadow: 10px 16px 32px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
+  background-color: #fff;
+  transition: box-shadow 0.3s ease; /* Add smooth transition for hover effect */
+  border-left: 5px solid #007bff; /* Adding left border */
+
+
+}
+
+.add-case-page:hover {
+  box-shadow: 10px 8px 8px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+}
+
+.add-case-page h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.add-case-page label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.add-case-page input[type="text"],
+.add-case-page input[type="date"],
+.add-case-page textarea {
+  width: calc(100% - 40px); /* Calculate width with space on left and right */
+  padding: 10px;
+  margin-bottom: 15px;
+  margin-right: 10px; /* Add margin on the right side */
+  margin-left: 10px; /* Add margin on the left side */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.add-case-page input[type="file"] {
+  width: calc(100% - 20px); /* Adjust width for file input */
+  padding: 10px;
+  margin-bottom: 15px;
+  margin-right: 10px; /* Add margin on the right side */
+  margin-left: 10px; /* Add margin on the left side */
+}
+
+.add-case-page .buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.add-case-page button {
+  width: 20%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-case-page button:hover {
+  background-color: #0056b3;
+}
+.heads{
+  color: #fff;
+}
+
+/* Media query for mobile view */
+@media screen and (max-width: 768px) {
+  .add-case-page {
+    max-width: 325px;
+    padding: 10px;
+  }
+
+  .add-case-page h2 {
+    font-size: 27px;
+    margin-bottom: 15px;
+  }
+
+  .add-case-page input[type="text"],
+  .add-case-page input[type="date"],
+  .add-case-page textarea,
+  .add-case-page input[type="file"] {
+    margin-bottom: 10px;
+  }
+
+  /* .add-case-page .buttons {
+    flex-direction: column;
+  } */
+
+  .add-case-page button {
+    width: 30%;
+    margin-bottom: 10px;
+  }
+}

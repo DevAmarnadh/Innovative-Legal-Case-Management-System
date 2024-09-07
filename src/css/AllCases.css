@@ -1,0 +1,211 @@
+/* AllCases.css */
+
+/* Base styles */
+.case-container {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  padding: 10px;
+  max-width: 50rem;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  border-left: 5px solid #007bff; /* Adding left border */
+}
+
+.no-cases-message {
+  color: #fff;
+  text-align: center;
+  padding-top: 200px;
+}
+
+.case {
+  margin-bottom: 20px;
+}
+
+.case-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.case-description,
+.case-details {
+  margin-bottom: 10px;
+}
+
+.files-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.file-item {
+  margin-bottom: 5px;
+}
+
+.file-link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.file-link:hover {
+  text-decoration: underline;
+}
+
+h2 {
+  font-size: 1.8rem;
+  color: #0f0f0f;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Modal styles */
+.modal-allcases {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-content-allcases {
+  background-color: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  max-height: 80%;
+  width: 50%;
+  overflow-y: auto;
+  border-left: 5px solid #007bff; /* Adding left border */
+
+}
+
+.modal h2 {
+  margin-top: 0;
+  color: black;
+}
+
+.modal p {
+  margin-bottom: 10px;
+  color: black;
+}
+
+.modal ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.modal li {
+  margin-bottom: 5px;
+  color: black;
+}
+
+.modal a.file-link {
+  color: blue;
+}
+
+.modal a.file-link:hover {
+  text-decoration: underline;
+}
+
+.modal-buttons {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.modal-buttons button {
+  margin-right: 10px;
+  padding: 8px 15px;
+}
+
+.modal-buttons button:last-child {
+  margin-right: 0;
+}
+
+button {
+  margin-right: 10px;
+}
+
+/* Media query for mobile view */
+@media screen and (max-width: 768px) {
+  .modal-allcases {
+    top: 50%; /* Adjust the modal position to center vertically */
+    transform: translateY(-50%); /* Center the modal vertically */
+  }
+
+  .case-container {
+    max-width: 20rem;
+    padding: 15px;
+  }
+
+  .case-title {
+    font-size: 20px;
+  }
+
+  .file-link {
+    font-size: 14px;
+  }
+
+  .modal-content-allcases {
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    max-height: 90%;
+    width: 65%;
+    overflow-y: auto;
+  }
+
+  ul li {
+    margin: 0; /* Remove all margin spaces */
+    padding: 0; /* Remove all padding */
+    margin-bottom: 10px;
+  }
+
+  .modal h2 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+    color: #0f0f0f;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  .modal p {
+    font-size: 14px;
+  }
+
+  .modal-buttons {
+    margin-top: 15px;
+  }
+
+  .modal-buttons button {
+    padding: 8px 15px;
+  }
+
+  .ul-allcases {
+    flex-direction: column; /* Stack menu items vertically on smaller screens */
+    position: absolute;
+    top: 80%; /* Adjust the top position */
+    width: 100%;
+    z-index: 1;
+    display: block;
+    unicode-bidi: isolate;
+    background-color: white;
+    margin: 0; /* Remove all margin spaces */
+    padding: 0; /* Remove all padding */
+  }
+
+  .file-link {
+    font-size: 1rem;
+    color: #0f83ff;
+    text-decoration: none;
+  }
+}

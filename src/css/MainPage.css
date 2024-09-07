@@ -1,0 +1,314 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Raleway:wght@400;700&display=swap');
+
+.mainpage-container {
+  font-family: 'Montserrat', sans-serif;
+  color: #333;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: #fff;
+}
+
+.mainpage-header {
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 300px;
+}
+
+.search-bar {
+  display: block;
+  width: 20%;
+  margin: 20px auto;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.carousel {
+  display: flex;
+  transition: transform 0.5s ease;
+  height: 100%;
+  width: 100%;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 2rem;
+}
+
+.carousel-button.prev {
+  left: 10px;
+}
+
+.carousel-button.next {
+  right: 10px;
+}
+
+.main-title {
+  font-size: 2.5rem;
+  color: #2E3B55;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.main-description {
+  font-size: 1.2rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.mission-section {
+  margin-bottom: 40px;
+}
+
+.features-section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 2rem;
+  color: #2E3B55;
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Raleway', sans-serif;
+}
+
+.features-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.feature-item {
+  background: rgb(232, 231, 231);
+  padding: 5px 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 1.1rem;
+  color: #2E3B55;
+  line-height: 1.6;
+  flex: 1 1 30%;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  border-left: 5px solid #FF5722; /* Adding left border */
+
+}
+
+.feature-item:hover {
+  background-color: #FF5722;
+  color: #fff;
+}
+
+.mission-description {
+  font-size: 1.2rem;
+  color: #666;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.welcome-username {
+  font-size: 2.5rem;
+  color: #2E3B55;
+  font-family: 'Raleway', sans-serif;
+}
+
+.portal-text {
+  font-size: 2rem;
+  color: #555;
+  font-family: 'Raleway', sans-serif;
+}
+
+.greet {
+  font-size: 1.5rem;
+  font-family: 'Indie Flower', cursive;  color: #333;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.first-container {
+  width: calc(90% - 10px);
+  /* margin-right: 20px; */
+  margin-bottom: 20px;
+}
+
+.second-container {
+  width: calc(70% - 10px);
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+.last-container {
+  width: 90%;
+  margin-right: 0;
+}
+
+.footer {
+  background-color: #333;
+  color: #fff;
+  display: flex;
+  padding-top: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: center;
+}
+
+.footer-content ul {
+  list-style: none;
+  padding: 0;
+}
+
+.mission-images {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+  margin-bottom: 70px;
+}
+
+.focus-img {
+  padding-top: 2rem;
+  width: calc(33.33% - 10px);
+  max-width: 350px;
+  height: auto;
+  position: relative;
+  display: block; /* Ensure it's a block-level element */
+  margin: 0 auto; /* Center it horizontally */
+}
+.mission-image {
+  width: calc(33.33% - 10px);
+  max-width: 350px;
+  height: auto;
+  position: relative;
+}
+
+.mission-image:not(:last-child) {
+  margin-right: 10px;
+}
+
+.mission-image-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 3px solid #ccc;
+  border-radius: 10px;
+  transition: border-color 0.3s ease;
+}
+
+.mission-image:hover .mission-image-img {
+  border-color: #2E3B55;
+}
+
+@media only screen and (max-width: 765px) {
+  .mainpage-header {
+    height: 200px;
+  }
+
+  .search-bar {
+    width: 50%;
+  }
+
+  .carousel {
+    height: 90%;
+  }
+
+  .carousel-button {
+    font-size: 1.5rem;
+    padding: 8px;
+  }
+
+  .main-title {
+    font-size: 2rem;
+  }
+
+  .main-description,
+  .mission-description {
+    font-size: 0.9rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    font-family: 'Raleway', sans-serif;
+  }
+
+  .feature-item {
+    flex: 1 1 100%;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+  }
+
+  .first-container {
+    margin-bottom: 20px;
+  }
+
+  .second-container {
+    width: calc(80% - 10px);
+    margin-bottom: 20px;
+  }
+
+  .last-container {
+    width: 80%;
+    margin-right: 0;
+  }
+
+  .greet {
+    font-size: 1rem;
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer-content {
+    width: 100%;
+    text-align: center;
+  }
+
+  .mission-images {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+  }
+
+  .mission-image {
+    width: 100%;
+    max-width: 300px;
+    height: 100%;
+    margin-bottom: 10px;
+    margin-top: 20px;
+  }
+  .focus-img {
+    padding-top: 2rem;
+    width: calc(88.33% - 10px);
+    max-width: 350px;
+    padding-bottom: 1rem;
+  }
+}
