@@ -14,60 +14,61 @@ function AllCases() {
   const [userRole, setUserRole] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [sortOrder, setSortOrder] = useState('newest');
 
   useEffect(() => {
     const fetchCases = async () => {
-  try {
-    const casesCollection = collection(db, 'cases');
-    const querySnapshot = await getDocs(casesCollection);
-    if (!querySnapshot.empty) {
-      const casesData = [];
-      for (const doc of querySnapshot.docs) {
-        const caseData = doc.data();
-
-        // Ensure files field exists and is an array
-        if (!Array.isArray(caseData.files)) {
-          caseData.files = [];  // Set it to an empty array if it's not an array
-        }
-
-        if (caseData.files.length > 0) {
-          const filesData = await Promise.all(
-            caseData.files.map(async (fileInfo) => {
-              if (typeof fileInfo === 'string') {
-                const fileRef = ref(storage, fileInfo);
-                const downloadURL = await getDownloadURL(fileRef);
-                return { filePath: fileInfo, downloadURL };
-              } else if (fileInfo.filePath) {
-                const fileRef = ref(storage, fileInfo.filePath);
-                const downloadURL = await getDownloadURL(fileRef);
-                return { ...fileInfo, downloadURL };
-              } else {
-                console.error('File path is not a string:', fileInfo);
-                return null;
-              }
-            }).filter(fileInfo => fileInfo !== null)
-          );
-
-          caseData.files = filesData;
+      try {
+        const casesCollection = collection(db, 'cases');
+        const querySnapshot = await getDocs(casesCollection);
+        if (!querySnapshot.empty) {
+          const casesData = [];
+          for (const doc of querySnapshot.docs) {
+            const caseData = doc.data();
+    
+            // Ensure files field exists and is an array
+            if (!Array.isArray(caseData.files)) {
+              caseData.files = [];  // Set it to an empty array if it's not an array
+            }
+    
+            if (caseData.files.length > 0) {
+              const filesData = await Promise.all(
+                caseData.files.map(async (fileInfo) => {
+                  if (typeof fileInfo === 'string') {
+                    const fileRef = ref(storage, fileInfo);
+                    const downloadURL = await getDownloadURL(fileRef);
+                    return { filePath: fileInfo, downloadURL };
+                  } else if (fileInfo.filePath) {
+                    const fileRef = ref(storage, fileInfo.filePath);
+                    const downloadURL = await getDownloadURL(fileRef);
+                    return { ...fileInfo, downloadURL };
+                  } else {
+                    console.error('File path is not a string:', fileInfo);
+                    return null;
+                  }
+                }).filter(fileInfo => fileInfo !== null)
+              );
+    
+              caseData.files = filesData;
+            } else {
+              caseData.files = [];
+            }
+    
+            casesData.push({ id: doc.id, ...caseData });
+          }
+    
+          // Initial sorting
+          casesData.sort((a, b) => new Date(b.filingDateTime) - new Date(a.filingDateTime));
+          setCases(casesData);
+          setFilteredCases(casesData);
         } else {
-          caseData.files = [];
+          console.log('No cases found.');
         }
-
-        casesData.push({ id: doc.id, ...caseData });
+      } catch (error) {
+        console.error('Error fetching cases:', error);
       }
-
-      // Initial sorting
-      casesData.sort((a, b) => new Date(b.filingDateTime) - new Date(a.filingDateTime));
-      setCases(casesData);
-      setFilteredCases(casesData);
-    } else {
-      console.log('No cases found.');
-    }
-  } catch (error) {
-    console.error('Error fetching cases:', error);
-  }
-};
-
+    };
+    
 
     const fetchUserRole = async (username) => {
       try {
@@ -132,16 +133,46 @@ function AllCases() {
     }
   };
 
+  const handleSortOrder = (order) => {
+    const sortedCases = [...filteredCases].sort((a, b) => {
+      if (order === 'newest') {
+        return new Date(b.filingDateTime) - new Date(a.filingDateTime);
+      } else {
+        return new Date(a.filingDateTime) - new Date(b.filingDateTime);
+      }
+    });
+    setFilteredCases(sortedCases);
+    setSortOrder(order);
+  };
+
   return (
     <div>
       <h2 style={{color:'#fff'}}>ALL CASES</h2>
-      <input
-        type="text"
-        placeholder="Search by case title..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        className="search-bar"
-      />
+      <div className="search-sort-container">
+        <input
+          type="text"
+          placeholder="Search by case title..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="search-bar"
+        />
+        <div className="sort-buttons">
+          <button 
+            onClick={() => handleSortOrder('newest')} 
+            disabled={sortOrder === 'newest'}
+            className="sort-button"
+          >
+            Sort by Newest
+          </button>
+          <button 
+            onClick={() => handleSortOrder('oldest')} 
+            disabled={sortOrder === 'oldest'}
+            className="sort-button"
+          >
+            Sort by Oldest
+          </button>
+        </div>
+      </div>
       {filteredCases.length === 0 ? (
         <p className="no-cases-message" >🐻Bear a minute...we are preparing all documents.</p>
       ) : (
