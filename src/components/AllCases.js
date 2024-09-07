@@ -17,47 +17,57 @@ function AllCases() {
 
   useEffect(() => {
     const fetchCases = async () => {
-      try {
-        const casesCollection = collection(db, 'cases');
-        const querySnapshot = await getDocs(casesCollection);
-        if (!querySnapshot.empty) {
-          const casesData = [];
-          for (const doc of querySnapshot.docs) {
-            const caseData = doc.data();
-            if (caseData.files) {
-              const filesData = await Promise.all(
-                caseData.files.map(async (fileInfo) => {
-                  if (typeof fileInfo === 'string') {
-                    const fileRef = ref(storage, fileInfo);
-                    const downloadURL = await getDownloadURL(fileRef);
-                    return { filePath: fileInfo, downloadURL };
-                  } else if (fileInfo.filePath) {
-                    const fileRef = ref(storage, fileInfo.filePath);
-                    const downloadURL = await getDownloadURL(fileRef);
-                    return { ...fileInfo, downloadURL };
-                  } else {
-                    console.error('File path is not a string:', fileInfo);
-                    return null;
-                  }
-                }).filter(fileInfo => fileInfo !== null)
-              );
-              
-              caseData.files = filesData;
-            } else {
-              caseData.files = [];
-            }
-            casesData.push({ id: doc.id, ...caseData });
-          }
-          
-          setCases(casesData);
-          setFilteredCases(casesData);
-        } else {
-          console.log('No cases found.');
+  try {
+    const casesCollection = collection(db, 'cases');
+    const querySnapshot = await getDocs(casesCollection);
+    if (!querySnapshot.empty) {
+      const casesData = [];
+      for (const doc of querySnapshot.docs) {
+        const caseData = doc.data();
+
+        // Ensure files field exists and is an array
+        if (!Array.isArray(caseData.files)) {
+          caseData.files = [];  // Set it to an empty array if it's not an array
         }
-      } catch (error) {
-        console.error('Error fetching cases:', error);
+
+        if (caseData.files.length > 0) {
+          const filesData = await Promise.all(
+            caseData.files.map(async (fileInfo) => {
+              if (typeof fileInfo === 'string') {
+                const fileRef = ref(storage, fileInfo);
+                const downloadURL = await getDownloadURL(fileRef);
+                return { filePath: fileInfo, downloadURL };
+              } else if (fileInfo.filePath) {
+                const fileRef = ref(storage, fileInfo.filePath);
+                const downloadURL = await getDownloadURL(fileRef);
+                return { ...fileInfo, downloadURL };
+              } else {
+                console.error('File path is not a string:', fileInfo);
+                return null;
+              }
+            }).filter(fileInfo => fileInfo !== null)
+          );
+
+          caseData.files = filesData;
+        } else {
+          caseData.files = [];
+        }
+
+        casesData.push({ id: doc.id, ...caseData });
       }
-    };
+
+      // Initial sorting
+      casesData.sort((a, b) => new Date(b.filingDateTime) - new Date(a.filingDateTime));
+      setCases(casesData);
+      setFilteredCases(casesData);
+    } else {
+      console.log('No cases found.');
+    }
+  } catch (error) {
+    console.error('Error fetching cases:', error);
+  }
+};
+
 
     const fetchUserRole = async (username) => {
       try {
