@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { db, storage } from './firebase';
 import { collection, addDoc, getDocs } from 'firebase/firestore';
 import { ref, getDownloadURL } from 'firebase/storage';
@@ -6,44 +6,10 @@ import Cookies from 'js-cookie';
 import '../css/AllCases.css';
 import { Snackbar } from '@mui/material';
 
-// Case Details Modal Component
-const CaseDetailsModal = ({ selectedCase, onClose, onTakeCase, userRole }) => {
-  return (
-    <div className="modal-allcases">
-      <div className="modal-content-allcases">
-        <h2>Case Details</h2>
-        <p><b>Case Title:</b> {selectedCase.caseTitle}</p>
-        <p><b>Case Description:</b> {selectedCase.caseDescription}</p>
-        <p><b>Client Name:</b>👤{selectedCase.caseAssignee}</p>
-        <p><b>Case Type:</b> {selectedCase.caseType}</p>
-        <p><b>Filing Date:</b> {selectedCase.filingDateTime}</p>
-
-        {selectedCase.files.length > 0 && (
-          <div>
-            <h3>Files Attached:</h3>
-            {selectedCase.files.map((file, index) => (
-              <p key={index}>
-                <a href={file.downloadURL} target="_blank" rel="noopener noreferrer" className="file-link">{file.filePath}</a>
-              </p>
-            ))}
-          </div>
-        )}
-
-        {userRole === 'Lawyers/Attorneys' && (
-          <>
-            <button onClick={onTakeCase}>Take Case</button>
-            <button onClick={onClose}>Back</button>
-          </>
-        )}
-      </div>
-    </div>
-  );
-};
-
-// Main AllCases Component
 function AllCases() {
   const [cases, setCases] = useState([]);
   const [selectedCase, setSelectedCase] = useState(null);
+  const [filteredCases, setFilteredCases] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [userRole, setUserRole] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -59,12 +25,12 @@ function AllCases() {
           const casesData = [];
           for (const doc of querySnapshot.docs) {
             const caseData = doc.data();
-
+    
             // Ensure files field exists and is an array
             if (!Array.isArray(caseData.files)) {
-              caseData.files = [];
+              caseData.files = [];  // Set it to an empty array if it's not an array
             }
-
+    
             if (caseData.files.length > 0) {
               const filesData = await Promise.all(
                 caseData.files.map(async (fileInfo) => {
@@ -76,19 +42,25 @@ function AllCases() {
                     const fileRef = ref(storage, fileInfo.filePath);
                     const downloadURL = await getDownloadURL(fileRef);
                     return { ...fileInfo, downloadURL };
+                  } else {
+                    console.error('File path is not a string:', fileInfo);
+                    return null;
                   }
-                  return null;
                 }).filter(fileInfo => fileInfo !== null)
               );
+    
               caseData.files = filesData;
+            } else {
+              caseData.files = [];
             }
-
+    
             casesData.push({ id: doc.id, ...caseData });
           }
-
-          // Sort initially by newest cases
+    
+          // Initial sorting
           casesData.sort((a, b) => new Date(b.filingDateTime) - new Date(a.filingDateTime));
           setCases(casesData);
+          setFilteredCases(casesData);
         } else {
           console.log('No cases found.');
         }
@@ -96,6 +68,7 @@ function AllCases() {
         console.error('Error fetching cases:', error);
       }
     };
+    
 
     const fetchUserRole = async (username) => {
       try {
@@ -122,22 +95,13 @@ function AllCases() {
     fetchCases();
   }, []);
 
-  // Filtering and sorting using useMemo
-  const filteredCases = useMemo(() => {
+  useEffect(() => {
     const lowercasedFilter = searchQuery.toLowerCase();
-    const sortedCases = [...cases].filter((item) =>
+    const filteredData = cases.filter((item) =>
       item.caseTitle.toLowerCase().includes(lowercasedFilter)
     );
-
-    // Sort based on selected order
-    return sortedCases.sort((a, b) => {
-      if (sortOrder === 'newest') {
-        return new Date(b.filingDateTime) - new Date(a.filingDateTime);
-      } else {
-        return new Date(a.filingDateTime) - new Date(b.filingDateTime);
-      }
-    });
-  }, [searchQuery, cases, sortOrder]);
+    setFilteredCases(filteredData);
+  }, [searchQuery, cases]);
 
   const handleViewCaseDetails = (caseItem) => {
     setSelectedCase(caseItem);
@@ -145,6 +109,8 @@ function AllCases() {
 
   const handleTakeCase = async () => {
     try {
+      console.log('Case taken by lawyer:', selectedCase.id);
+
       setSnackbarMessage('Case successfully taken!');
       setSnackbarOpen(true);
 
@@ -168,6 +134,14 @@ function AllCases() {
   };
 
   const handleSortOrder = (order) => {
+    const sortedCases = [...filteredCases].sort((a, b) => {
+      if (order === 'newest') {
+        return new Date(b.filingDateTime) - new Date(a.filingDateTime);
+      } else {
+        return new Date(a.filingDateTime) - new Date(b.filingDateTime);
+      }
+    });
+    setFilteredCases(sortedCases);
     setSortOrder(order);
   };
 
@@ -200,7 +174,7 @@ function AllCases() {
         </div>
       </div>
       {filteredCases.length === 0 ? (
-        <p className="no-cases-message">🐻Bear a minute...we are preparing all documents.</p>
+        <p className="no-cases-message" >🐻Bear a minute...we are preparing all documents.</p>
       ) : (
         filteredCases.map((caseItem) => (
           <div className="case-container" key={caseItem.id}>
@@ -213,12 +187,34 @@ function AllCases() {
         ))
       )}
       {selectedCase && (
-        <CaseDetailsModal
-          selectedCase={selectedCase}
-          onClose={() => setSelectedCase(null)}
-          onTakeCase={handleTakeCase}
-          userRole={userRole}
-        />
+        <div className="modal-allcases">
+          <div className="modal-content-allcases">
+            <h2>Case Details</h2>
+            <p><b>Case Title:</b> {selectedCase.caseTitle}</p>
+            <p><b>Case Description:</b> {selectedCase.caseDescription}</p>
+            <p><b>Client Name:</b>👤{selectedCase.caseAssignee}</p>
+            <p><b>Case Type:</b> {selectedCase.caseType}</p>
+            <p><b>Filing Date:</b> {selectedCase.filingDateTime}</p>
+            
+            {selectedCase.files.length > 0 && (
+              <div>
+                <h3>Files Attached:</h3>
+                {selectedCase.files.map((file, index) => (
+                  <p key={index}>
+                    <a href={file.downloadURL} target="_blank" rel="noopener noreferrer" className="file-link">{file.filePath}</a>
+                  </p>
+                ))}
+              </div>
+            )}
+
+            {userRole === 'Lawyers/Attorneys' && (
+              <>
+                <button onClick={handleTakeCase}>Take Case</button>
+                <button onClick={() => setSelectedCase(null)}>Back</button>
+              </>
+            )}
+          </div>
+        </div>
       )}
       <Snackbar
         open={snackbarOpen}
