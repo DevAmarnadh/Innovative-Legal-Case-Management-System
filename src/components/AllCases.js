@@ -59,41 +59,33 @@ function AllCases() {
           const casesData = [];
           for (const doc of querySnapshot.docs) {
             const caseData = doc.data();
-  
+
             // Ensure files field exists and is an array
             if (!Array.isArray(caseData.files)) {
               caseData.files = [];
             }
-  
+
             if (caseData.files.length > 0) {
               const filesData = await Promise.all(
                 caseData.files.map(async (fileInfo) => {
-                  try {
-                    if (typeof fileInfo === 'string') {
-                      const fileRef = ref(storage, fileInfo);
-                      const downloadURL = await getDownloadURL(fileRef);
-                      return { filePath: fileInfo, downloadURL };
-                    } else if (fileInfo.filePath) {
-                      const fileRef = ref(storage, fileInfo.filePath);
-                      const downloadURL = await getDownloadURL(fileRef);
-                      return { ...fileInfo, downloadURL };
-                    }
-                  } catch (error) {
-                    if (error.code === 'storage/object-not-found') {
-                      console.warn(`File not found: ${fileInfo}`);
-                      return null; // File not found, skip this file
-                    }
-                    console.error('Error fetching file:', error);
-                    return null;
+                  if (typeof fileInfo === 'string') {
+                    const fileRef = ref(storage, fileInfo);
+                    const downloadURL = await getDownloadURL(fileRef);
+                    return { filePath: fileInfo, downloadURL };
+                  } else if (fileInfo.filePath) {
+                    const fileRef = ref(storage, fileInfo.filePath);
+                    const downloadURL = await getDownloadURL(fileRef);
+                    return { ...fileInfo, downloadURL };
                   }
+                  return null;
                 }).filter(fileInfo => fileInfo !== null)
               );
               caseData.files = filesData;
             }
-  
+
             casesData.push({ id: doc.id, ...caseData });
           }
-  
+
           // Sort initially by newest cases
           casesData.sort((a, b) => new Date(b.filingDateTime) - new Date(a.filingDateTime));
           setCases(casesData);
@@ -104,10 +96,31 @@ function AllCases() {
         console.error('Error fetching cases:', error);
       }
     };
-  
+
+    const fetchUserRole = async (username) => {
+      try {
+        const usersCollection = collection(db, 'users');
+        const querySnapshot = await getDocs(usersCollection);
+        querySnapshot.forEach((doc) => {
+          const userData = doc.data();
+          if (userData.username === username) {
+            setUserRole(userData.role);
+          }
+        });
+      } catch (error) {
+        console.error('Error fetching user role:', error);
+      }
+    };
+
+    const username = Cookies.get('username');
+    if (username) {
+      fetchUserRole(username);
+    } else {
+      console.log('No username found in the cookie.');
+    }
+
     fetchCases();
   }, []);
-  
 
   // Filtering and sorting using useMemo
   const filteredCases = useMemo(() => {
