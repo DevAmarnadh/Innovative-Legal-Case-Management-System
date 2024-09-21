@@ -51,62 +51,63 @@ function AllCases() {
   const [sortOrder, setSortOrder] = useState('newest');
 
   useEffect(() => {
-    const fetchCases = async () => {
-      try {
-        const casesCollection = collection(db, 'cases');
-        const querySnapshot = await getDocs(casesCollection);
-        if (!querySnapshot.empty) {
-          const casesData = [];
-          for (const doc of querySnapshot.docs) {
-            const caseData = doc.data();
-  
-            // Ensure files field exists and is an array
-            if (!Array.isArray(caseData.files)) {
-              caseData.files = [];
-            }
-  
-            if (caseData.files.length > 0) {
-              const filesData = await Promise.all(
-                caseData.files.map(async (fileInfo) => {
-                  try {
-                    if (typeof fileInfo === 'string') {
-                      const fileRef = ref(storage, fileInfo);
-                      const downloadURL = await getDownloadURL(fileRef);
-                      return { filePath: fileInfo, downloadURL };
-                    } else if (fileInfo.filePath) {
-                      const fileRef = ref(storage, fileInfo.filePath);
-                      const downloadURL = await getDownloadURL(fileRef);
-                      return { ...fileInfo, downloadURL };
-                    }
-                  } catch (error) {
-                    if (error.code === 'storage/object-not-found') {
-                      console.warn(`File not found: ${fileInfo}`);
-                      return null; // File not found, skip this file
-                    }
-                    console.error('Error fetching file:', error);
-                    return null;
-                  }
-                }).filter(fileInfo => fileInfo !== null)
-              );
-              caseData.files = filesData;
-            }
-  
-            casesData.push({ id: doc.id, ...caseData });
+  const fetchCases = async () => {
+    try {
+      const casesCollection = collection(db, 'cases');
+      const querySnapshot = await getDocs(casesCollection);
+      if (!querySnapshot.empty) {
+        const casesData = [];
+        for (const doc of querySnapshot.docs) {
+          const caseData = doc.data();
+
+          // Ensure files field exists and is an array
+          if (!Array.isArray(caseData.files)) {
+            caseData.files = [];
           }
-  
-          // Sort initially by newest cases
-          casesData.sort((a, b) => new Date(b.filingDateTime) - new Date(a.filingDateTime));
-          setCases(casesData);
-        } else {
-          console.log('No cases found.');
+
+          if (caseData.files.length > 0) {
+            const filesData = await Promise.all(
+              caseData.files.map(async (fileInfo) => {
+                try {
+                  if (typeof fileInfo === 'string') {
+                    const fileRef = ref(storage, fileInfo);
+                    const downloadURL = await getDownloadURL(fileRef);
+                    return { filePath: fileInfo, downloadURL };
+                  } else if (fileInfo.filePath) {
+                    const fileRef = ref(storage, fileInfo.filePath);
+                    const downloadURL = await getDownloadURL(fileRef);
+                    return { ...fileInfo, downloadURL };
+                  }
+                } catch (error) {
+                  if (error.code === 'storage/object-not-found') {
+                    console.warn(`File not found: ${fileInfo}`);
+                    return null; // File not found, skip this file
+                  }
+                  console.error('Error fetching file:', error);
+                  return null;
+                }
+              }).filter(fileInfo => fileInfo !== null)
+            );
+            caseData.files = filesData;
+          }
+
+          casesData.push({ id: doc.id, ...caseData });
         }
-      } catch (error) {
-        console.error('Error fetching cases:', error);
+
+        // Sort initially by newest cases
+        casesData.sort((a, b) => new Date(b.filingDateTime) - new Date(a.filingDateTime));
+        setCases(casesData);
+      } else {
+        console.log('No cases found.');
       }
-    };
-  
-    fetchCases();
-  }, []);
+    } catch (error) {
+      console.error('Error fetching cases:', error);
+    }
+  };
+
+  fetchCases();
+}, []);
+
   
 
   // Filtering and sorting using useMemo
