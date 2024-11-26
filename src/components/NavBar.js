@@ -1,81 +1,142 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import styles from '../css/NavBar.module.css'; // Import CSS module
-import Cookies from 'js-cookie'; // Import Cookies
-import logo from '../components/Assets/court3.png'; // Import logo image
+import Joyride, { STATUS } from 'react-joyride'; // Import Joyride for tour functionality
+import styles from '../css/NavBar.module.css'; // CSS for styling
+import Cookies from 'js-cookie'; // Cookie handling
+import logo from '../components/Assets/court3.png'; // Logo import
 
 function NavBar() {
-  const navigate = useNavigate(); // Initialize useNavigate hook
-  const location = useLocation(); // Get current location
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(Cookies.get('username') !== undefined);
   const username = Cookies.get('username');
   const userRole = Cookies.get('role');
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // State to manage menu visibility
-  const [showLogoutModal, setShowLogoutModal] = useState(false); // State to control logout modal visibility
-  const navRef = useRef(null); // Reference to the nav element
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [runTour, setRunTour] = useState(false); // Control the tour run state
+  const navRef = useRef(null);
 
-  // Function to handle logout
+  // Define the steps for the tour, targeting each menu item
+  const tourSteps = [
+    {
+      target: '.home-nav',
+      content: 'Start your journey from the Home page.',
+      placement: 'bottom',
+    },
+    {
+      target: '.add-case-nav',
+      content: 'Add a new case from here.',
+      placement: 'bottom',
+    },
+    {
+      target: '.all-cases-nav',
+      content: 'View all cases in the system.',
+      placement: 'bottom',
+    },
+    {
+      target: '.lawyers-nav',
+      content: 'Browse available lawyers here.',
+      placement: 'bottom',
+    },
+    {
+      target: '.my-cases-nav',
+      content: 'Track your cases in this section.',
+      placement: 'bottom',
+    },
+    {
+      target: '.inbox-nav',
+      content: 'Check your messages in the Inbox.',
+      placement: 'bottom',
+    },
+    {
+      target: '.profile-nav',
+      content: 'Manage your profile here.',
+      placement: 'bottom',
+    },
+    {
+      target: '.contact-nav',
+      content: 'Get in touch through the Contact page.',
+      placement: 'bottom',
+    },
+  ];
+
+  // Start the tour when user lands on Add Case page
+  useEffect(() => {
+    if (location.pathname === '/add-case') {
+      setRunTour(true);
+    }
+  }, [location]);
+
+  // Logout handlers
   const handleLogout = () => {
-    setShowLogoutModal(true); // Show the confirmation modal
-    setIsMenuOpen(false); // Close the menu when the logout button is clicked
+    setShowLogoutModal(true);
+    setIsMenuOpen(false);
   };
 
-  // Function to confirm logout
   const confirmLogout = () => {
-    Cookies.remove('username'); // Remove the 'username' cookie
+    Cookies.remove('username');
     Cookies.remove('role');
     Cookies.remove('email');
-    setIsLoggedIn(false); // Update isLoggedIn state
-    navigate('/login'); // Redirect to the login page
+    setIsLoggedIn(false);
+    navigate('/login');
   };
 
-  // Function to cancel logout
   const cancelLogout = () => {
-    setShowLogoutModal(false); // Hide the confirmation modal
+    setShowLogoutModal(false);
   };
 
-  // Function to toggle menu
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // Function to handle menu item click
   const handleMenuItemClick = () => {
-    setIsMenuOpen(false); // Close the menu when a menu item is clicked
+    setIsMenuOpen(false);
   };
 
-  // Function to close menu when clicked outside
-  const handleClickOutside = (event) => {
-    if (navRef.current && !navRef.current.contains(event.target)) {
-      setIsMenuOpen(false);
+  // Joyride callback to handle tour lifecycle events
+  const handleTourCallback = (data) => {
+    const { status } = data;
+    const finishedStatuses = [STATUS.FINISHED, STATUS.SKIPPED];
+    if (finishedStatuses.includes(status)) {
+      setRunTour(false); // Stop the tour when finished or skipped
     }
   };
-
-  // Add event listener for clicks outside the menu
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
-
-    // Clean up event listener on component unmount
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isMenuOpen]);
-
-  // Determine if the current page is the secret page
-  const isSecretPage = location.pathname === '/secret-page';
 
   return (
-    isLoggedIn && !isSecretPage && ( // Hide navbar on secret page
+    isLoggedIn && (
       <>
+        <Joyride
+          steps={tourSteps}
+          run={runTour}
+          continuous={true}
+          showProgress={true}
+          showSkipButton={true}
+          callback={handleTourCallback} // Callback for tour events
+          styles={{
+            options: {
+              arrowColor: '#fff',
+              backgroundColor: '#5e72e4',
+              overlayColor: 'rgba(0, 0, 0, 0.5)',
+              primaryColor: '#5e72e4',
+              textColor: '#fff',
+              width: 300,
+              zIndex: 1000,
+            },
+            buttonClose: {
+              color: '#fff',
+            },
+            buttonBack: {
+              marginRight: 10,
+              color: '#fff',
+            },
+          }}
+        />
+
         <nav className={styles.nav} ref={navRef}>
           <div className={styles.logoContainer}>
             <a href="/MainPage" className={styles.logoLink}>
-              <img src={logo} alt="Logo" className={styles.logo} onClick={() => console.log('Logo clicked')} />
-              <span className={styles.logoText}>Justice Portal</span> {/* Text near the logo */}
+              <img src={logo} alt="Logo" className={styles.logo} />
+              <span className={styles.logoText}>Justice Portal</span>
             </a>
           </div>
           <div className={styles.menuToggle} onClick={toggleMenu}>
@@ -84,14 +145,32 @@ function NavBar() {
             <div className={styles.bar}></div>
           </div>
           <ul className={`${styles.menu} ${isMenuOpen ? styles.active : ''}`}>
-            <li><Link to="/MainPage" onClick={handleMenuItemClick}>Home</Link></li>
-            <li><Link to="/add-case" onClick={handleMenuItemClick}>Add Case</Link></li>
-            {userRole !== 'Owners/Clients' && <li><Link to="/all-cases" onClick={handleMenuItemClick}>All Cases</Link></li>}
-            <li><Link to="/lawyers" onClick={handleMenuItemClick}>Lawyers</Link></li>
-            <li><Link to="/my-cases" onClick={handleMenuItemClick}>My Cases</Link></li>
-            <li><Link to="/inbox" onClick={handleMenuItemClick}>Inbox</Link></li>
-            <li><Link to="/profile" onClick={handleMenuItemClick}>Profile</Link></li>
-            <li><Link to="/contact" onClick={handleMenuItemClick}>Contact</Link></li>
+            <li className="home-nav">
+              <Link to="/MainPage" onClick={handleMenuItemClick}>Home</Link>
+            </li>
+            <li className="add-case-nav">
+              <Link to="/add-case" onClick={handleMenuItemClick}>Add Case</Link>
+            </li>
+            {userRole !== 'Owners/Clients' && (
+              <li className="all-cases-nav">
+                <Link to="/all-cases" onClick={handleMenuItemClick}>All Cases</Link>
+              </li>
+            )}
+            <li className="lawyers-nav">
+              <Link to="/lawyers" onClick={handleMenuItemClick}>Lawyers</Link>
+            </li>
+            <li className="my-cases-nav">
+              <Link to="/my-cases" onClick={handleMenuItemClick}>My Cases</Link>
+            </li>
+            <li className="inbox-nav">
+              <Link to="/inbox" onClick={handleMenuItemClick}>Inbox</Link>
+            </li>
+            <li className="profile-nav">
+              <Link to="/profile" onClick={handleMenuItemClick}>Profile</Link>
+            </li>
+            <li className="contact-nav">
+              <Link to="/contact" onClick={handleMenuItemClick}>Contact</Link>
+            </li>
             <li className={styles.userSection}>
               <span>{username}</span>
               <button onClick={handleLogout}>Logout</button>

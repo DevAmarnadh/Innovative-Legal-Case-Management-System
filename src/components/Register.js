@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 import { db } from './firebase';
 import Cookies from 'js-cookie';
-import { TextField, Button, Snackbar } from '@mui/material'; import eyeOpen from './Assets/eye_open.png'; // Import eye_open icon
-import eyeClosed from './Assets/eye_closed.png'; // Import eye_closed icon
-import '../css/Register.css'; // Import Register.css for styling
+import { TextField, Button, Snackbar } from '@mui/material';
+import eyeOpen from './Assets/eye_open.png';
+import eyeClosed from './Assets/eye_closed.png';
+import '../css/Register.css';
 import myImage from './Assets/court3.png';
 import axios from 'axios';
 
@@ -13,192 +14,311 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
+  const [experience, setExperience] = useState('');
+  const [department, setDepartment] = useState('');
+  const [boardOfCouncil, setBoardOfCouncil] = useState('');
+  const [llbCertificateNumber, setLlbCertificateNumber] = useState('');
   const [registrationMessage, setRegistrationMessage] = useState('');
-  const [openSnackbar, setOpenSnackbar] = useState(false); // State to control Snackbar visibility
-  const [passwordVisible, setPasswordVisible] = useState(false); // State to toggle password visibility
-  const [registrationSuccess, setRegistrationSuccess] = useState(false); // State to control success message visibility
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  const [location, setLocation] = useState(null); // New state for location
+
+  // List of Indian states for the board of council selection
+  const indianStates = [
+    'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh',
+    'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka',
+    'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram',
+    'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu',
+    'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal'
+  ];
+
+  // Function to get the user's location using OpenCage Geocoding API
+  const getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          try {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            // Use OpenCage API to reverse geocode latitude and longitude
+            const apiKey = 'a5ac45accf3a4ee6a8397c5dca5e7fd6'; // Replace with your actual OpenCage API key
+            const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json`, {
+              params: {
+                q: `${lat},${lon}`,
+                key: apiKey
+              }
+            });
+
+            const locationDetails = response.data.results[0]?.components;
+            if (locationDetails) {
+              setLocation({
+                latitude: lat,
+                longitude: lon,
+                state: locationDetails.state || 'Unknown',
+                country: locationDetails.country || 'Unknown',
+              });
+            } else {
+              setRegistrationMessage('Failed to retrieve location details.');
+              setOpenSnackbar(true);
+            }
+          } catch (error) {
+            setRegistrationMessage('Error fetching location details.');
+            setOpenSnackbar(true);
+          }
+        },
+        (error) => {
+          setRegistrationMessage('Failed to retrieve location.');
+          setOpenSnackbar(true);
+        }
+      );
+    } else {
+      setRegistrationMessage('Geolocation is not supported by this browser.');
+      setOpenSnackbar(true);
+    }
+  };
+
+  useEffect(() => {
+    // Automatically fetch location when component mounts or allow the user to fetch manually
+    // getLocation(); // Uncomment if you want to get the location immediately
+  }, []);
 
   const handleRegistration = async (e) => {
     e.preventDefault();
-  
+
+    // Check if location is null, if so, show an error and prevent form submission
+    if (!location) {
+      setRegistrationMessage('Location is required before registration.');
+      setOpenSnackbar(true);
+      return;
+    }
+
     const usersCollectionRef = collection(db, 'users');
     const lowercaseUsername = username.toLowerCase();
     const q = query(usersCollectionRef, where('username', '==', lowercaseUsername));
-  
+
     try {
       const querySnapshot = await getDocs(q);
-  
+
       if (!querySnapshot.empty) {
         setRegistrationMessage('Username already exists. Please choose a different one.');
-        setOpenSnackbar(true); // Open Snackbar for failure message
+        setOpenSnackbar(true);
         return;
       }
-  
-      await addDoc(usersCollectionRef, {
+
+      // Data to be saved in Firestore
+      const userData = {
         username: lowercaseUsername,
         email,
         role,
         password,
-      });
-  
+        location, // Store location in the user data
+      };
+
+      // If the role is "Lawyers/Attorneys", add additional fields
+      if (role === 'Lawyers/Attorneys') {
+        userData.experience = experience;
+        userData.department = department;
+        userData.boardOfCouncil = boardOfCouncil; // Store state from board of council
+        userData.llbCertificateNumber = llbCertificateNumber;
+      }
+
+      await addDoc(usersCollectionRef, userData);
+
       Cookies.set('username', lowercaseUsername);
       const UserRole = role.substring(5);
       Cookies.set('role', UserRole);
-      Cookies.set('email',email);
+      Cookies.set('email', email);
 
-      const body={
+      const body = {
         name: username,
         intro: "Welcome to Justice Portal, your trusted platform for legal assistance and services!",
         action: {
-            instructions: 'To start exploring our services, please click the button below:',
-            button: {
-                color: '#22BC66', // Optional action button color
-                text: 'Explore!',
-                link: 'https://justice-portal.vercel.app/MainPage'
-            }
+          instructions: 'To start exploring our services, please click the button below:',
+          button: {
+            color: '#22BC66',
+            text: 'Explore!',
+            link: 'https://justice-portal.vercel.app/MainPage'
+          }
         },
-        
         outro: "Thank you for choosing Justice Portal. We are dedicated to serving you and ensuring your legal needs are met with professionalism and care."
-    }
+      };
 
-// After successful registration, send user's email to the server
-axios.post('https://justice-portal-server.vercel.app/api/submit/message', { userEmail: email, userName: username, mailBody: body })
-    .then(response => {
-        console.log('Response:', response.data); // Log the response data
-        // Handle response
-    })
-    .catch(error => {
-        console.error('Error during registration:', error);
-        // Handle error
-    });
+      // Send email after registration
+      axios.post('https://justice-portal-server.vercel.app/api/submit/message', { userEmail: email, userName: username, mailBody: body })
+        .then(response => {
+          console.log('Response:', response.data);
+        })
+        .catch(error => {
+          console.error('Error during registration:', error);
+        });
 
-
-  
-      setRegistrationSuccess(true); // Set success message visibility
+      setRegistrationSuccess(true);
       setRegistrationMessage('Registration successful! Redirecting...');
       setUsername('');
       setPassword('');
-  
-      setTimeout(() => {
-        // Redirect to LoginPage after registration
-        window.location.href = '/MainPage';
 
+      setTimeout(() => {
+        window.location.href = '/MainPage';
       }, 1000);
     } catch (error) {
       console.error('Error during registration:', error);
       setRegistrationMessage('An error occurred during registration. Please try again later.');
-      setOpenSnackbar(true); // Open Snackbar for failure message
+      setOpenSnackbar(true);
     }
   };
 
   const handleCloseSnackbar = () => {
-    setOpenSnackbar(false); // Close Snackbar
+    setOpenSnackbar(false);
   };
 
   return (
-    <>
     <div className="registration-container">
-    <div class="header-container">
-    <div className="img-container">
-        {/* Use the imported image with styles */}
-        <img src={myImage} alt="Description" className="img" />
+      <div className="header-container">
+        <div className="img-container">
+          <img src={myImage} alt="Description" className="img" />
+        </div>
+        <h1 className="justiceTitleReg">Justice Portal</h1>
+        <h1 className="sloganReg">Bridging the Gap between</h1>
+        <h1 className="sloganReg1">Law and Fairness</h1>
       </div>
-      <h1 className='justiceTitleReg'>Justice Portal</h1>
-      <h1 className='sloganReg'>Bridging the Gap between</h1>
-      <h1 className='sloganReg1'>Law and Fairness</h1>
+
+      <div className="outer-container-reg">
+        <div className="register-container">
+          <h1 className="register-heading">Register</h1>
+          <form className="form" onSubmit={handleRegistration}>
+            <TextField
+              label="Username"
+              variant="outlined"
+              required
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              autoComplete="off"
+              className="input-field1"
+            />
+            <br />
+            <TextField
+              label="Email"
+              type="email"
+              variant="outlined"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="off"
+              className="input-field2"
+            />
+            <br />
+
+            {/* Role Selection */}
+            <div className="input-field3">
+              <select
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                className="custom-select"
+                required
+              >
+                <option value="" disabled>Role*</option>
+                <option value="Case Owners/Clients">Case Owners/Clients</option>
+                <option value="Lawyers/Attorneys">Lawyers/Attorneys</option>
+              </select>
+            </div>
+
+            {/* Conditionally render experience, department, board of council, and LLB Certificate Number for Lawyers */}
+            {role === 'Lawyers/Attorneys' && (
+              <>
+                <TextField
+                  label="Experience (Years)"
+                  variant="outlined"
+                  required
+                  value={experience}
+                  onChange={(e) => setExperience(e.target.value)}
+                  autoComplete="off"
+                  className="input-field2"
+                />
+                <br />
+                <div className="input-field3">
+                  <select
+                    value={department}
+                    onChange={(e) => setDepartment(e.target.value)}
+                    className="custom-select"
+                    required
+                  >
+                    <option value="" disabled>Department*</option>
+                    <option value="Criminal Law">Criminal Law</option>
+                    <option value="Family Law">Family Law</option>
+                    <option value="Criminal Law">Criminal Law</option>
+                    <option value="Corporate Law">Corporate Law</option>
+                    <option value="Family Law">Family Law</option>
+                    <option value="Labor Law">Labor Law</option>
+                    <option value="Property Law">Property Law</option>
+                  </select>
+                </div>
+                <div className="input-field3">
+                  <select
+                    value={boardOfCouncil}
+                    onChange={(e) => setBoardOfCouncil(e.target.value)}
+                    className="custom-select"
+                    required
+                  >
+                    <option value="" disabled>Board of Council*</option>
+                    {indianStates.map((state, index) => (
+                      <option key={index} value={state}>{state}</option>
+                    ))}
+                  </select>
+                </div>
+                <TextField
+                  label="LLB Certificate Number"
+                  variant="outlined"
+                  required
+                  value={llbCertificateNumber}
+                  onChange={(e) => setLlbCertificateNumber(e.target.value)}
+                  autoComplete="off"
+                  className="input-field2"
+                />
+                <br />
+              </>
+            )}
+
+            {/* Password and Visibility */}
+            <TextField
+              label="Password"
+              type={passwordVisible ? "text" : "password"}
+              variant="outlined"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="off"
+              className="input-field1"
+            />
+            <img
+              src={passwordVisible ? eyeOpen : eyeClosed}
+              alt="Toggle Password Visibility"
+              className="eye-icon"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+            />
+
+            {/* Submit Button */}
+            <div className="button-container">
+              <Button variant="contained" color="primary" type="submit" className="submit-button" disabled={!location}>
+                Register
+              </Button>
+              <Button variant="contained" color="primary" onClick={getLocation} disabled={location}>
+                Verify My Location
+              </Button>
+            </div>
+          </form>
+
+          {/* Snackbar Message */}
+          <Snackbar
+            open={openSnackbar}
+            autoHideDuration={3000}
+            onClose={handleCloseSnackbar}
+            message={registrationMessage}
+          />
+        </div>
       </div>
-
-    <div className='outer-container-reg'>
-    <div className='register-container'>
-      <h1 className='register-heading'>Register</h1>
-      <form className="form" onSubmit={handleRegistration}>
-        <TextField
-          label="Username"
-          variant="outlined"
-          required
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          autoComplete="off"
-          className="input-field1"
-        />
-        <br />
-        <TextField
-          label="Email" // Add email input field
-          type="email"
-          variant="outlined"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          autoComplete="off"
-          className="input-field2"
-        />
-        <br/>
-        <div className="input-field3">
-        <select
-  value={role}
-  onChange={(e) => setRole(e.target.value)}
-  className="custom-select"
-  required
->
-  <option value="" disabled>Role*</option>
-  <option value="Case Owners/Clients">Case Owners/Clients</option>
-  <option value="Lawyers/Attorneys">Lawyers/Attorneys</option>
-</select>
-
-
-
-</div>
-
-<div className="password-field" style={{ width: '300px', position: 'relative', marginBottom: '20px' }}>
-  <TextField
-    label="Password"
-    type={passwordVisible ? 'text' : 'password'}
-    variant="outlined"
-    required
-    value={password}
-    onChange={(e) => setPassword(e.target.value)}
-    style={{ width: '100%' }} // Set the width of the TextField to 100% to fill the container
-  />
-  <span
-    className="toggle-password"
-    style={{ position: 'absolute', top: '50%', right: '10px', transform: 'translateY(-50%)' }}
-    onClick={() => setPasswordVisible(!passwordVisible)}
-  >
-    <img
-      src={passwordVisible ? eyeOpen : eyeClosed}
-      alt="Toggle Password"
-      className="eye-icon"
-    />
-  </span>
-</div>
-
-        <br />
-        <Button type="submit" variant="contained" color="primary">Register</Button>
-      </form>
-      <div className='routeToLogin'>
-        <p className='routeToLogin'>Already have an account? <span onClick={() => window.location.href = '/login'} className="register-link">Login</span></p> {/* Directly change window location */}
-      </div>
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={3000}
-        onClose={handleCloseSnackbar}
-        message={registrationMessage}
-      />
-      <Snackbar
-        open={registrationSuccess}
-        autoHideDuration={3000}
-        onClose={() => setRegistrationSuccess(false)}
-        message="Registration successful!"
-      />
     </div>
-    <h7></h7>
-    </div>
-    <div class="page-footer">
-      <h7 className="msg">"Success is not final, failure is not fatal: It is the courage to continue that counts." - Winston Churchill</h7>
-    </div>
-    </div>
-    
-    </>
   );
 };
 

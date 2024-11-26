@@ -58,7 +58,7 @@ const getBill = (req, res) => {
         theme: "default",
         product: {
             name: "Justice Portal Team",
-            link: 'https://justice-portal.vercel.app/',
+            link: 'https://lawyer-justice-portal.vercel.app/',
         }
     });
 

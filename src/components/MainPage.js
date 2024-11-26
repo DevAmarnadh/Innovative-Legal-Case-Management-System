@@ -44,10 +44,10 @@ function MainPage() {
   return (
     <div className='mainpage-container'>
       {/* <header className='mainpage-header'> */}
-        {/* <div className='carousel' style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+        {/* <div className='carousel' style={{ transform: translateX(-${currentSlide * 100}%) }}>
           {slides.map((slide, index) => (
             <div className='carousel-slide' key={index}>
-              <img src={slide} alt={`Justice Portal Banner ${index + 1}`} />
+              <img src={slide} alt={Justice Portal Banner ${index + 1}} />
             </div>
           ))}
         </div>

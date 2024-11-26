@@ -1,144 +1,305 @@
 .client-requests-container {
-    max-width: 600px;
-    margin: 0 auto;
-    box-shadow: 10px 16px 32px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
-    transition: box-shadow 0.3s ease; /* Add smooth transition for hover effect */
-    border-radius: 10px; /* Adjust the border radius as needed */    
-  }
-  .request-form:hover{
-    box-shadow: 10px 8px 8px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 10px 16px 32px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
+  transition: box-shadow 0.3s ease; /* Add smooth transition for hover effect */
+  border-radius: 10px; /* Adjust the border radius as needed */    
+}
+.request-form:hover{
+  box-shadow: 10px 8px 8px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
 
-  }
-  
-  .request-form {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-left: 5px solid #007bff; /* Adding left border */
+}
 
-  }
-  
-  .input-field {
-    margin-bottom: 20px;
-  }
-  
-  .input-field label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  .input-field input,
-  .input-field textarea,
-  .input-field select {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .buttons {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .buttons button {
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: #007bff;
-    color: #fff;
-  }
-  
-  .buttons button:hover {
-    background-color: #0056b3;
-  }
+.request-form {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-left: 5px solid #007bff; /* Adding left border */
 
-  #request-message{
-    width:537px;
-  }
+}
 
-  .page-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: transparent; /* Adjust the background color as needed */
-    padding: 10px; /* Adjust the padding as needed */
-    text-align: center; /* Align text to center */
-    font-size: 12px;
-    font-weight: normal;
-    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for visual separation */
-    white-space: nowrap; /* Prevent text wrapping */
-  }
-  .msg{
-    font-size: 15px;
-  font-weight: normal;
+.input-field {
+  margin-bottom: 20px;
+}
+
+.input-field label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-field input,
+.input-field textarea,
+.input-field select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttons button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #007bff;
   color: #fff;
-  }
-  
-  
-  
-  
+}
 
-  /* Media query for mobile view */
+.buttons button:hover {
+  background-color: #0056b3;
+}
+
+#request-message{
+  width:537px;
+}
+
+.page-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: transparent; /* Adjust the background color as needed */
+  padding: 10px; /* Adjust the padding as needed */
+  text-align: center; /* Align text to center */
+  font-size: 12px;
+  font-weight: normal;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for visual separation */
+  white-space: nowrap; /* Prevent text wrapping */
+}
+.msg{
+  font-size: 15px;
+font-weight: normal;
+color: #fff;
+}
+
+
+
+
+
+/* Media query for mobile view */
 @media screen and (max-width: 768px) {
-  /* Adjust styles for smaller screens */
-  .client-requests-container {
-    max-width: 90%; /* Decrease max-width */
-    margin-top: 20px; /* Add top margin */
-    box-shadow: 10px 16px 32px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
-    transition: box-shadow 0.3s ease; /* Add smooth transition for hover effect */
-    border-radius: 10px; /* Adjust the border radius as needed */    
-  }
-  .client-requests-container:hover{
-    box-shadow: 10px 8px 8px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+/* Adjust styles for smaller screens */
+.client-requests-container {
+  max-width: 90%; /* Decrease max-width */
+  margin-top: 20px; /* Add top margin */
+  box-shadow: 10px 16px 32px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
+  transition: box-shadow 0.3s ease; /* Add smooth transition for hover effect */
+  border-radius: 10px; /* Adjust the border radius as needed */    
+}
+.client-requests-container:hover{
+  box-shadow: 10px 8px 8px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
 
-  }
+}
 
-  .request-form {
-    padding: 15px; /* Decrease padding */
-  }
-  
-  .input-field {
-    margin-bottom: 15px; /* Decrease bottom margin */
-    max-width: 100%;
-  }
+.request-form {
+  padding: 15px;
+}
 
-  .buttons button {
-    padding: 8px 15px; /* Decrease padding for buttons */
-    font-size: 14px; /* Decrease font size for buttons */
-  }
+.input-field {
+  margin-bottom: 15px; 
+  max-width: 100%;
+}
 
-  .page-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 95%; /* Set the width to 100% */
-    background-color: transparent; /* Adjust the background color as needed */
-    padding: 10px; /* Adjust the padding as needed */
-    text-align: center; /* Align text to center */
-    font-size: 12px;
-    font-weight: normal;
-    color: #333; /* Adjust the text color as needed */
-    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for visual separation */
-    overflow: hidden; /* Prevent content from overflowing */
-    white-space: nowrap; /* Prevent text wrapping */
-  }
-  
-  .page-footer h7 {
-    display: inline-block;
-    vertical-align: middle;
-    white-space: normal; /* Allow text to wrap */
-    font-weight: 500;
-  }
-  
-  
+.buttons button {
+  padding: 8px 15px; 
+  font-size: 14px; 
+}
+
+.page-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Set to black with 50% transparency */
+  padding: 10px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: normal;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  color: #fff; /* Ensuring the text is visible */
+}
+
+.page-footer .footer-text {
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff; /* White text for visibility */
+}
+}
+/* ClientRequests.css */
+
+.recommended-lawyers-container {
+  background-color: white; /* White background for the container */
+  color: black; /* Black text color */
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.scrollable-container {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.lawyer-item {
+  padding: 10px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #ccc; 
+}
+
+.lawyer-item strong {
+  color: black; 
+}
+
+.star {
+  color: #FFD700; 
+}
+
+.filled-star {
+  color: #FFD700; 
+}
+
+.empty-star {
+  color: #ccc; 
+}
+
+/* Adjustments to buttons */
+.recommended-lawyers-btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.recommended-lawyers-btn:hover {
+  background-color: #45a049; 
+}
 
 
-  
-  
+.scrollable-container {
+  max-height: 300px; 
+  overflow-y: hidden; 
+  overflow-x: auto; 
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #f9f9f9;
+  margin-top: 20px;
+  white-space: nowrap; 
+}
+
+.lawyer-item {
+  display: inline-block; 
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-right: 10px; 
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.lawyer-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.recommended-lawyers-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.recommended-lawyers-btn:hover {
+  background-color: #0056b3;
+}
+.recommended-lawyers {
+  margin-top: 20px;
+}
+
+.lawyers-list {
+  display: flex;
+  overflow-x: scroll;
+  padding: 10px;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+}
+
+.lawyer-card {
+  flex: 0 0 auto; 
+  width: 250px;
+  margin-right: 15px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.lawyer-card h4 {
+  margin-bottom: 5px;
+}
+
+.snackbar {
+  background-color: #333;
+  color: white;
+  padding: 16px;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 100;
+  border-radius: 5px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 500px;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.normal-lawyer-profile-button{
+  text-decoration: underline;
 }

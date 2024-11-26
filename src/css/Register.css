@@ -1,5 +1,5 @@
-
 /* Register.css */
+
 .outer-container-reg {
   position: absolute;
   top: 0;
@@ -34,8 +34,6 @@
 .register-container:hover {
   box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.5); /* Enhance shadow on hover */
 }
-
-
 
 .justiceTitleReg {
   font-family: 'Raleway', sans-serif; /* Apply the same font as before */
@@ -95,7 +93,7 @@
   height: auto;
   position: relative;
   right: 305px;
-  top:200px;
+  top: 200px;
 }
 
 .form {
@@ -150,16 +148,6 @@
   color: blue;
 }
 
-/* h1 {
-  font-size: 2.5rem;
-  color: #000000;
-  text-align: center;
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  font-family: 'Quicksand', sans-serif;
-  letter-spacing: 2px;
-  text-shadow: 2px 2px 4px rgba(76, 175, 80, 0.2);
-} */
 h1 {
   font-size: 2.5rem; /* Adjust the font size as needed */
   font-family: 'Raleway', sans-serif; /* Use Raleway font */
@@ -171,7 +159,6 @@ h1 {
   letter-spacing: 2px; /* Add letter spacing for better readability */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow effect */
 }
-
 
 .button-container {
   margin-top: 20px;
@@ -193,7 +180,7 @@ h1 {
   outline: none;
 }
 
-.routeToLogin{
+.routeToLogin {
   padding-top: 10px;
 }
 
@@ -202,12 +189,12 @@ h1 {
     display: flex;
     justify-content: center; /* Center the image horizontally */
   }
-  
+
   .img {
-    top:145px;
+    top: 145px;
     left: 0px;
     width: 80%; /* Adjust the width to make it responsive */
-    max-width:65px; /* Set a maximum width */
+    max-width: 65px; /* Set a maximum width */
     max-height: 65px;
     position: relative;
     margin-top: -110px; /* Move the image 50px up */
@@ -224,10 +211,10 @@ h1 {
     letter-spacing: 2px; /* Add letter spacing for better readability */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow effect */
   }
-  .routeToLogin{
-    margin:0px;
+
+  .routeToLogin {
+    margin: 0px;
   }
-  
 
   .justiceTitleReg {
     font-size: 2.3rem;
@@ -237,6 +224,7 @@ h1 {
     right: initial;
     white-space: nowrap; /* Ensure the text is displayed on a single line */
   }
+
   .sloganReg {
     font-size: 0.8rem;
     top: calc(0rem + 0rem - 10px); /* Move it up by 20px */
@@ -249,67 +237,53 @@ h1 {
     line-height: 1rem; /* Adjust line height for two lines of text */
     white-space: nowrap;
   }
-  
+
   .sloganReg1 {
     font-size: 0.8rem;
     top: calc(0rem + 0rem - 35px); /* Adjust top position */
     left: 50%;
     transform: translateX(-50%);
     right: initial;
-    margin-top: 200px; /* Reduce top margin */
-    margin-bottom: 4px; /* Reduce bottom margin */
-    height: 2rem; /* Set the height for two lines of text */
-    line-height: 1rem; /* Adjust line height for two lines of text */
-    white-space: nowrap; 
+    margin-top: 160px;
+    margin-bottom: 4px;
+    height: 2rem;
+    line-height: 1rem;
+    white-space: nowrap;
   }
-  
+}
+.location-button-container {
+  display: flex;
+  justify-content: flex-start; /* Align buttons to the left */
+  gap: 10px; /* Add space between the buttons */
+  margin-bottom: 20px;
+}
+
+.submit-button {
+  margin-left: 10px; /* Optional: Adjust spacing between the two buttons */
+}
+
+.password-container {
+  position: relative;
+}
+
+.eye {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: 16px;  /* Adjust the size to make it smaller */
+  height: auto; /* Maintain aspect ratio */
+}
 
 
-  .input-field3 select {
-    width: 222px;
-    height: 55px;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #333;
-    border-radius: 5px;
-    background-color: transparent;
-    color: #333333;
-    outline: none;
-  }
+.input-field1, .input-field2, .input-field3 {
+  width: 100%;
+  margin-bottom: 20px;
+}
 
-  .outer-container-reg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-  .register-container {
-    padding: 20px; /* Adjust padding for smaller screens */
-    width: 90%; /* Adjust width for smaller screens */
-    max-width: 230px; /* Set maximum width for better readability */
-    top: 56%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Center the container */
-  }
-  .register-container:hover {
-    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.5); /* Enhance shadow on hover */
-  }
-  
-  .input-field1,
-  .input-field2,
-  .input-field3 {
-    width: 100%;
-    max-width: 200px; /* Adjust max-width for smaller screens */
-    margin-bottom: 8px; /* Decrease margin for smaller screens */
-  }
-  .password-field{
-    width:100%;
-    max-width: 222px;
-    margin-bottom: 8px;
-  }
+.custom-select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
 }
