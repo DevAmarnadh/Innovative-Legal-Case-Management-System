@@ -201,7 +201,7 @@ function ClientRequests() {
 
   return (
     <div className="client-requests-container">
-      <h2 style={{ color: "#fff" }}>REQUEST LAWYER</h2>
+      <h2 style={{ color: "#fff" }}>REQUEST LAWYER AND COMMUNICATE WITH THEM...</h2>
       {isLoggedIn ? (
         <div className="request-form">
           <div className="input-field">
@@ -243,7 +243,7 @@ function ClientRequests() {
           </div>
 
           <div className="input-field">
-            <label htmlFor="request-message">Request Message:</label>
+            <label htmlFor="request-message">Message:</label>
             <textarea
               id="request-message"
               value={requestMessage}

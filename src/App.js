@@ -69,7 +69,7 @@ const App = () => {
       <div>
         {isLoggedIn && <NavBar />}
         <Routes>
-          {!isLoggedIn && <Route path="/" element={<Register />} />}
+          {!isLoggedIn && <Route path="/" element={<Login />} />}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/MainPage" element={isLoggedIn ? <MainPage /> : <Navigate to="/" />} />

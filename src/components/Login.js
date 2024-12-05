@@ -17,12 +17,12 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-  
+
     const usersCollectionRef = collection(db, 'users');
     const lowerCaseIdentifier = identifier.toLowerCase();
     const usernameQuery = query(usersCollectionRef, where('username', '==', lowerCaseIdentifier)); // Query for username
     const emailQuery = query(usersCollectionRef, where('email', '==', lowerCaseIdentifier)); // Query for email
-  
+
     try {
       const usernameSnapshot = await getDocs(usernameQuery);
       const emailSnapshot = await getDocs(emailQuery);
@@ -33,7 +33,7 @@ const Login = () => {
           setLoginMessage('Authenticating...');
           Cookies.set('username', userDoc.username); // Set username
           const userRole = userDoc.role.substring(5);
-          Cookies.set('role', userRole); 
+          Cookies.set('role', userRole);
           Cookies.set('email', userDoc.email);
           setTimeout(() => {
             window.location.href = '/MainPage';
@@ -58,70 +58,67 @@ const Login = () => {
   };
 
   return (
-  <div className='login-page-bg'>
-  <div class="header-container-login">
-  <div className="img-container">
-      {/* Use the imported image with styles */}
-      <img src={myImage} alt="Description" className="img" />
-    </div>
-    <h1 className='justiceTitleLogin'>Justice Portal</h1>
-    {/* <h1 className='sloganLogin'>Bridging the Gap between Law and Fairness</h1> */}
-    <h1 className='sloganLogin'>Bridging the Gap between</h1>
-      <h1 className='sloganLogin1'>Law and Fairness</h1>
-    </div>
-    <div class="outer-container">
-    <div className='login-container'>
-      <h1 className='login-heading'>Login</h1>
-      <form onSubmit={handleLogin} className="login-form">
-        <TextField
-          label="Email or Username" // Change label to reflect email or username
-          variant="outlined"
-          required
-          value={identifier}
-          onChange={(e) => setIdentifier(e.target.value)}
-          autoComplete="off"
-          className="input-field1"
-        />
-        <br />
-        <div className="password-field">
-          <TextField
-            label="Password"
-            type={passwordVisible ? 'text' : 'password'}
-            variant="outlined"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="input-field2"
-          />
-          <span
-            className="toggle-password"
-            onClick={() => setPasswordVisible(!passwordVisible)}
-          >
-            <img
-              src={passwordVisible ? eyeOpen : eyeClosed}
-              alt="Toggle Password"
-              className="eye-icon"
-            />
-          </span>
+    <div className='login-page-bg'>
+      <div className="header-container-login">
+        <div className="img-container">
+          <img src={myImage} alt="Description" className="img" />
         </div>
-        <br />
-        <Button type="submit" variant="contained" color="primary">Login</Button>
-      </form>
-      <div>
-        <p>Don't have an account? <span onClick={() => window.location.href = '/register'} className="register-link">Register</span></p>
+        <h1 className='justiceTitleLogin'>Justice Portal</h1>
+        <h1 className='sloganLogin'>Bridging the Gap between</h1>
+        <h1 className='sloganLogin1'>Law and Fairness</h1>
       </div>
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={3000}
-        onClose={handleCloseSnackbar}
-        message={loginMessage}
-      />
-      
-    </div>
-    </div>
-    <div class="page-footer">
-      <h7 className="msg">"Success is not final, failure is not fatal: It is the courage to continue that counts." - Winston Churchill</h7>
-    </div>
+      <div className="outer-container">
+        <div className='login-container'>
+          <h1 className='login-heading'>Login</h1>
+          <form onSubmit={handleLogin} className="login-form">
+            <TextField
+              label="Email or Username"
+              variant="outlined"
+              required
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
+              autoComplete="off"
+              className="input-field1"
+            />
+            <br />
+            <div className="password-field">
+              <TextField
+                label="Password"
+                type={passwordVisible ? 'text' : 'password'}
+                variant="outlined"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="input-field2"
+              />
+              <span
+                className="toggle-password"
+                onClick={() => setPasswordVisible(!passwordVisible)}
+              >
+                <img
+                  src={passwordVisible ? eyeOpen : eyeClosed}
+                  alt="Toggle Password"
+                  className="eye-icon"
+                />
+              </span>
+            </div>
+            <br />
+            <Button type="submit" variant="contained" color="primary">Login</Button>
+          </form>
+          <div>
+            <p>Don't have an account? <span onClick={() => window.location.href = '/register'} className="register-link">Register</span></p>
+          </div>
+          <Snackbar
+            open={openSnackbar}
+            autoHideDuration={3000}
+            onClose={handleCloseSnackbar}
+            message={loginMessage}
+          />
+        </div>
+      </div>
+      <div className="page-footer">
+        <h7 className="msg">"Success is not final, failure is not fatal: It is the courage to continue that counts." - Winston Churchill</h7>
+      </div>
     </div>
   );
 };
