@@ -41,7 +41,8 @@ const Register = () => {
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
 
-            const apiKey = 'a5ac45accf3a4ee6a8397c5dca5e7fd6'; // Replace with your actual API key
+            // Use OpenCage API to reverse geocode latitude and longitude
+            const apiKey = 'a5ac45accf3a4ee6a8397c5dca5e7fd6'; // Replace with your actual OpenCage API key
             const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json`, {
               params: {
                 q: `${lat},${lon}`,
@@ -105,8 +106,7 @@ const Register = () => {
         email,
         role,
         password,
-        location,
-        serviceType, // Include the service type in user data
+        location, // Store location in the user data
       };
 
       if (role === 'Lawyers/Attorneys') {
@@ -243,17 +243,6 @@ const Register = () => {
                   className="input-field6"
                 />
                 <br />
-                <div className="input-field7">
-                  <select
-                    value={serviceType}
-                    onChange={(e) => setServiceType(e.target.value)}
-                    className="custom-select"
-                    required
-                  >
-                    <option value="Free">Service Type: Free</option>
-                    <option value="Paid">Service Type: Paid</option>
-                  </select>
-                </div>
               </>
             )}
 
