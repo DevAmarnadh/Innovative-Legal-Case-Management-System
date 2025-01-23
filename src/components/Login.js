@@ -77,6 +77,7 @@ const Login = () => {
     <Box sx={{ 
       minHeight: '100vh',
       display: 'flex',
+      flexDirection: { xs: 'column', md: 'row' },
       background: 'linear-gradient(135deg, #f6f9fc 0%, #eef2f7 100%)',
       position: 'relative',
       overflow: 'hidden'
@@ -84,11 +85,12 @@ const Login = () => {
       {/* Left Side - Background and Content */}
       <Box
         sx={{
-          position: 'fixed',
+          position: { xs: 'relative', md: 'fixed' },
           left: 0,
           top: 0,
-          width: '45%',
-          height: '100vh',
+          width: { xs: '100%', md: '45%' },
+          height: { xs: 'auto', md: '100vh' },
+          minHeight: { xs: '50vh', md: '100vh' },
           backgroundImage: `
             linear-gradient(
               to right bottom,
@@ -131,7 +133,7 @@ const Login = () => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            padding: '0 5rem',
+            padding: { xs: '2rem', md: '0 5rem' },
             color: 'white',
             zIndex: 1,
           }}
@@ -279,13 +281,13 @@ const Login = () => {
       {/* Right Side - Login Form */}
       <Box
         sx={{
-          marginLeft: '45%',
-          width: '55%',
-          minHeight: '100vh',
+          marginLeft: { xs: 0, md: '45%' },
+          width: { xs: '100%', md: '55%' },
+          minHeight: { xs: 'auto', md: '100vh' },
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '2rem',
+          padding: { xs: '1rem', md: '2rem' },
           background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)',
           position: 'relative',
           '&::before': {
@@ -305,7 +307,7 @@ const Login = () => {
           sx={{
             width: '100%',
             maxWidth: '500px',
-            p: 4,
+            p: { xs: 2, md: 4 },
             borderRadius: '16px',
             background: 'rgba(255, 255, 255, 0.9)',
             backdropFilter: 'blur(20px)',
