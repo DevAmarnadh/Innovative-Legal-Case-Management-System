@@ -22,6 +22,7 @@ import Footer from './Footer';
 import { styled, keyframes } from '@mui/material/styles';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from './firebase';
+import backgroundImage from './Assets/image.png';
 
 const float = keyframes`
   0% { transform: translateY(0px); }
@@ -303,7 +304,7 @@ const LandingPage = () => {
           bgcolor: '#f5f5f5',
           position: 'relative',
           overflow: 'hidden',
-          backgroundImage: 'linear-gradient(rgba(26, 35, 126, 0.92), rgba(26, 35, 126, 0.92)), url("/Assets/image.png")',
+          backgroundImage: `linear-gradient(rgba(26, 35, 126, 0.92), rgba(26, 35, 126, 0.92)), url(${backgroundImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed',
@@ -389,7 +390,7 @@ const LandingPage = () => {
           bgcolor: '#f5f5f5',
           position: 'relative',
           overflow: 'hidden',
-          backgroundImage: 'linear-gradient(rgba(26, 35, 126, 0.95), rgba(26, 35, 126, 0.95)), url("/Assets/image.png")',
+          backgroundImage: `linear-gradient(rgba(26, 35, 126, 0.95), rgba(26, 35, 126, 0.95)), url(${backgroundImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed',
