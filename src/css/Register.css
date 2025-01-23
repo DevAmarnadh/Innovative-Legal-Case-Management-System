@@ -1,5 +1,42 @@
 /* Register.css */
 
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.MuiContainer-root {
+  height: 100%;
+}
+
+.MuiGrid-container {
+  margin: 0 !important;
+}
+
+/* Update form container */
+.MuiPaper-root {
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(155, 155, 155, 0.5) transparent;
+}
+
+.MuiPaper-root::-webkit-scrollbar {
+  width: 6px;
+}
+
+.MuiPaper-root::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.MuiPaper-root::-webkit-scrollbar-thumb {
+  background-color: rgba(155, 155, 155, 0.5);
+  border-radius: 20px;
+  border: transparent;
+}
+
 .outer-container-reg {
   position: absolute;
   top: 0;
@@ -11,28 +48,69 @@
   align-items: center;
 }
 
+.register-container, form {
+  width: 100%;
+  max-width: 600px !important;
+  margin: 0 auto;
+}
+
+/* Paper component styling */
+.MuiPaper-root[elevation="3"] {
+  width: 100% !important;
+  max-width: 600px !important;
+  margin: 0 auto;
+  padding: 2rem !important;
+}
+
+/* Container styling */
+.MuiContainer-root.MuiContainer-maxWidthXs {
+  max-width: none !important;
+}
+
+/* Hammer icon animation */
+@keyframes hammerFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.MuiIconButton-root .MuiSvgIcon-root[data-testid="GavelIcon"] {
+  animation: hammerFloat 2s ease-in-out infinite;
+}
+
+/* Responsive adjustments */
+@media only screen and (max-width: 600px) {
+  .register-container, 
+  .MuiPaper-root[elevation="3"],
+  .MuiContainer-root.MuiContainer-maxWidthXs {
+    max-width: 90% !important;
+    padding: 1rem !important;
+  }
+}
+
 .register-container {
   justify-content: center;
-  padding: 50px; /* Adjust the padding as needed */
-  border: 2px solid;
-  border-image: linear-gradient(to right, #ff00ff, #00ffff, #ff00ff);
-  border-radius: 10px; /* Adjust the border radius as needed */
-  box-shadow: 10px 16px 32px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
-  background-color: rgba(255, 255, 255, 0.25); /* Semi-transparent background */
-  backdrop-filter: blur(10px); /* Apply blur effect */
-  border: 1px solid rgba(255, 255, 255, 0.7); /* Light border */
-  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5); /* Subtle shadow */
-  overflow: hidden; /* Clip content to the box */
-  z-index: 9999; /* Ensure the container appears above other elements */
-  position: fixed; /* Fix the container in position */
+  padding: 50px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  z-index: 9999;
+  position: fixed;
   width: 100%;
-  max-width: 300px; /* Set maximum width for better readability */
-  text-align: center; /* Center text content */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 350px;
+  text-align: center;
+  transition: all 0.3s ease;
 }
 
 .register-container:hover {
-  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.5); /* Enhance shadow on hover */
+  transform: translateY(-5px);
+  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.4);
 }
 
 .justiceTitleReg {
@@ -101,90 +179,205 @@
 }
 
 .input-field1,
-.input-field2 {
-  margin-bottom: 20px;
-  width: 300px;
+.input-field2,
+.input-field3,
+.input-field4,
+.input-field5,
+.input-field6,
+.input-field7 {
+  margin-bottom: 1.5rem;
+  width: 100%;
 }
 
-.input-field3 {
-  margin-top: 20px;
-  margin-bottom: 10px;
+.MuiTextField-root {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
-.input-field3 select {
-  width: 300px;
-  height: 55px;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #333333;
-  border-radius: 5px;
-  background-color: transparent;
-  color: #333;
-  outline: none;
-}
-
-.password-field {
-  position: relative;
-  width: 300px; /* Adjust width as needed */
-  margin-bottom: 20px;
-}
-
-.toggle-password {
-  position: absolute;
-  top: 50%;
-  right: 10px; /* Adjust position as needed */
-  transform: translateY(-50%);
-  cursor: pointer;
-}
-
-.eye-icon {
-  max-width: 24px;
-  height: auto;
-  cursor: pointer;
-}
-
-.register-link {
-  cursor: pointer;
-  color: blue;
-}
-
-h1 {
-  font-size: 2.5rem; /* Adjust the font size as needed */
-  font-family: 'Raleway', sans-serif; /* Use Raleway font */
-  font-weight: 700; /* Use bold font weight */
-  color: #fff; /* Dark color */
-  text-align: center; /* Center align the text */
-  margin-bottom: 20px; /* Add some space below */
-  text-transform: uppercase; /* Convert text to uppercase */
-  letter-spacing: 2px; /* Add letter spacing for better readability */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow effect */
-}
-
-.button-container {
-  margin-top: 20px;
-}
-
-.button-container button {
-  margin-right: 10px;
+.MuiTextField-root:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .custom-select {
-  width: 300px;
+  width: 100%;
   height: 55px;
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: transparent;
-  color: #666666;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #333;
   outline: none;
+  transition: all 0.3s ease;
+}
+
+.custom-select:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.password-container {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.password-field {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #333;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.password-field:focus {
+  outline: none;
+  border-color: #2196F3;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.eye-button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.eye-icon {
+  width: 20px;
+  height: 20px;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.eye-icon:hover {
+  opacity: 1;
+}
+
+.verify-location-button,
+.register-button {
+  margin: 1rem 0;
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.verify-location-button {
+  background: linear-gradient(45deg, #ff9800, #f44336) !important;
+}
+
+.register-button {
+  background: linear-gradient(45deg, #2196F3, #3f51b5) !important;
+}
+
+.verify-location-button:hover,
+.register-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form > * {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.form > *:nth-child(1) { animation-delay: 0.1s; }
+.form > *:nth-child(2) { animation-delay: 0.2s; }
+.form > *:nth-child(3) { animation-delay: 0.3s; }
+.form > *:nth-child(4) { animation-delay: 0.4s; }
+.form > *:nth-child(5) { animation-delay: 0.5s; }
+
+.location-button-container {
+  display: flex;
+  justify-content: flex-start; /* Align buttons to the left */
+  gap: 10px; /* Add space between the buttons */
+  margin-bottom: 20px;
+}
+
+.submit-button {
+  margin-left: 10px; /* Optional: Adjust spacing between the two buttons */
 }
 
 .routeToLogin {
   padding-top: 10px;
 }
 
+/* Add floating animation for the hammer icon */
+@keyframes iconFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.MuiIconButton-root {
+  animation: iconFloat 2s ease-in-out infinite;
+}
+
+/* Update form width to match login page */
+.MuiContainer-maxWidthXs {
+  max-width: none !important;
+}
+
+.MuiPaper-root {
+  min-width: 500px !important;
+  max-width: 600px !important;
+  width: 100% !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(10px) !important;
+  border-radius: 20px !important;
+}
+
+/* Hammer icon floating animation */
+@keyframes iconBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.icon-wrapper {
+  animation: iconFloat 2s ease-in-out infinite;
+}
+
+/* Mobile responsiveness */
 @media only screen and (max-width: 600px) {
+  .MuiPaper-root {
+    min-width: unset !important;
+    width: 90% !important;
+    margin: 0 20px !important;
+  }
+  
+  .MuiContainer-maxWidthXs {
+    max-width: 90% !important;
+  }
+
   .img-container {
     display: flex;
     justify-content: center; /* Center the image horizontally */
@@ -250,40 +443,4 @@ h1 {
     line-height: 1rem;
     white-space: nowrap;
   }
-}
-.location-button-container {
-  display: flex;
-  justify-content: flex-start; /* Align buttons to the left */
-  gap: 10px; /* Add space between the buttons */
-  margin-bottom: 20px;
-}
-
-.submit-button {
-  margin-left: 10px; /* Optional: Adjust spacing between the two buttons */
-}
-
-.password-container {
-  position: relative;
-}
-
-.eye {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  width: 16px;  /* Adjust the size to make it smaller */
-  height: auto; /* Maintain aspect ratio */
-}
-
-
-.input-field1, .input-field2, .input-field3 {
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-.custom-select {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
 }

@@ -1,11 +1,134 @@
 import React, { useState, useEffect } from 'react';
+import { 
+  Container, 
+  Paper, 
+  Typography, 
+  TextField, 
+  Button, 
+  Box, 
+  Dialog, 
+  DialogTitle, 
+  DialogContent, 
+  DialogContentText, 
+  DialogActions,
+  Grid,
+  IconButton,
+  Divider,
+  Card,
+  CardContent
+} from '@mui/material';
 import { collection, query, where, getDocs, updateDoc, doc } from 'firebase/firestore';
 import { db } from './firebase';
 import Cookies from 'js-cookie';
-import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
-import '../css/Profile.css';
-import eyeOpen from './Assets/eye_open.png'; // Import eye_open icon
-import eyeClosed from './Assets/eye_closed.png'; // Import eye_closed icon
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import EditIcon from '@mui/icons-material/Edit';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Cancel';
+import DownloadIcon from '@mui/icons-material/Download';
+import HistoryIcon from '@mui/icons-material/History';
+import PersonIcon from '@mui/icons-material/Person';
+import WorkIcon from '@mui/icons-material/Work';
+import EmailIcon from '@mui/icons-material/Email';
+import LockIcon from '@mui/icons-material/Lock';
+import { styled } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles';
+
+const ProfileContainer = styled(Box)(({ theme }) => ({
+  minHeight: '100vh',
+  background: 'linear-gradient(135deg, #f5f7fa 0%, #ebedee 100%)',
+  padding: theme.spacing(4),
+}));
+
+const ProfileWrapper = styled(Box)(({ theme }) => ({
+  maxWidth: 1000,
+  margin: '0 auto',
+  display: 'grid',
+  gridTemplateColumns: '300px 1fr',
+  gap: theme.spacing(3),
+  [theme.breakpoints.down('md')]: {
+    gridTemplateColumns: '1fr',
+  }
+}));
+
+const SidePanel = styled(Paper)(({ theme }) => ({
+  borderRadius: theme.spacing(3),
+  overflow: 'hidden',
+  height: 'fit-content',
+  background: 'white',
+  boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+}));
+
+const MainPanel = styled(Paper)(({ theme }) => ({
+  borderRadius: theme.spacing(3),
+  overflow: 'hidden',
+  background: 'white',
+  boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+}));
+
+const UserAvatar = styled(Box)(({ theme }) => ({
+  width: '100%',
+  aspectRatio: '1',
+  background: 'linear-gradient(45deg, #1a237e 30%, #283593 90%)',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  color: 'white',
+  '& svg': {
+    fontSize: 80,
+  }
+}));
+
+const InfoItem = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(2),
+  display: 'flex',
+  alignItems: 'center',
+  gap: theme.spacing(2),
+  transition: 'all 0.2s ease',
+  '&:hover': {
+    backgroundColor: 'rgba(26, 35, 126, 0.04)',
+  }
+}));
+
+const InfoIcon = styled(Box)(({ theme }) => ({
+  width: 36,
+  height: 36,
+  borderRadius: '12px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: 'rgba(26, 35, 126, 0.08)',
+  color: '#1a237e',
+  '& svg': {
+    fontSize: 20,
+  }
+}));
+
+const EditButton = styled(IconButton)(({ theme }) => ({
+  width: 36,
+  height: 36,
+  borderRadius: '12px',
+  backgroundColor: 'rgba(26, 35, 126, 0.08)',
+  color: '#1a237e',
+  '&:hover': {
+    backgroundColor: 'rgba(26, 35, 126, 0.12)',
+  }
+}));
+
+const ActionButton = styled(Button)(({ theme }) => ({
+  borderRadius: '12px',
+  padding: theme.spacing(1.5, 3),
+  textTransform: 'none',
+  fontWeight: 600,
+  boxShadow: 'none',
+  '&.MuiButton-contained': {
+    background: 'linear-gradient(45deg, #1a237e 30%, #283593 90%)',
+    color: 'white',
+    '&:hover': {
+      boxShadow: '0 6px 20px rgba(26, 35, 126, 0.3)',
+    }
+  }
+}));
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
@@ -133,110 +256,261 @@ const Profile = () => {
   
 
   return (
-    <>
-      <h1 className="title">User Profile</h1>
+    <ProfileContainer>
+      <ProfileWrapper>
+        <SidePanel>
+          <UserAvatar>
+            <PersonIcon />
+          </UserAvatar>
+          <Box sx={{ p: 3, textAlign: 'center' }}>
+            <Typography variant="h5" sx={{ fontWeight: 600, mb: 1 }}>
+              {userData?.username || 'Loading...'}
+            </Typography>
+            <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+              {userData?.role || 'Loading...'}
+            </Typography>
+            <ActionButton
+              variant="contained"
+              onClick={handleViewLog}
+              startIcon={<HistoryIcon />}
+              fullWidth
+            >
+              Activity Log
+            </ActionButton>
+          </Box>
+        </SidePanel>
 
-      <div className="container">
-        {userData && (
-          <div>
-            <div className="field-container">
-              <h2 className='field-label'>Username: {userData.username}</h2>
-            </div>
-            <div className="field-container">
-              <h2 className="field-label">Role: {userData.role}</h2>
-            </div>
-            <div className="field-container">
-              {editableFields['email'] ? (
-                <TextField
-                  label="Email"
-                  variant="outlined"
-                  className="field-input"
-                  fullWidth
-                  value={userData.email}
-                  onChange={(e) => handleInputChange(e, 'email')}
-                />
-              ) : (
-                <h2 className="field-label">Email: {userData.email}</h2>
-              )}
-              {editableFields['email'] ? (
-                <div className="field-actions">
-                  <Button variant="contained" color="primary" className="button" onClick={() => handleSaveField('email')}>Save</Button>
-                  <Button variant="contained" color="secondary" className="button" onClick={() => handleDiscardChanges('email')}>Discard</Button>
-                </div>
-              ) : (
-                <Button variant="contained" className="button" onClick={() => handleEditField('email')}>Edit</Button>
-              )}
-            </div>
-            <div className="field-container">
-              {editableFields['password'] ? (
-                <div className="password-field">
-                  <TextField
-                    label="Password"
-                    type={passwordVisible ? 'text' : 'password'}
-                    variant="outlined"
-                    className="field-input"
-                    fullWidth
-                    value={userData.password}
-                    onChange={(e) => handleInputChange(e, 'password')}
-                  />
-                  <span
-                    className="toggle-password"
-                    onClick={() => setPasswordVisible(!passwordVisible)}
-                  >
-                    <img
-                      src={passwordVisible ? eyeOpen : eyeClosed}
-                      alt="Toggle Password"
-                      className="eye-icon"
-                    />
-                  </span>
-                </div>
-              ) : (
-                <h2 className="field-label">Password: ********</h2>
-              )}
-              {editableFields['password'] ? (
-                <div className="field-actions">
-                  <Button variant="contained" color="primary" className="button" onClick={() => handleSaveField('password')}>Save</Button>
-                  <Button variant="contained" color="secondary" className="button" onClick={() => handleDiscardChanges('password')}>Discard</Button>
-                </div>
-              ) : (
-                <Button variant="contained" className="button" onClick={() => handleEditField('password')}>Edit</Button>
-              )}
-            </div>
-            {updateSuccess && (
-              <p className="success-message">Profile updated successfully!</p>
-            )}
-            <div className="field-container">
-              <Button variant="contained" color="primary" className="button" onClick={handleViewLog}>View Log</Button>
-            </div>
-          </div>
-        )}
-      </div>
-      <Dialog open={showLogDialog} onClose={handleCloseLogDialog}>
-        <DialogTitle>Log Entries</DialogTitle>
-        <DialogContent>
-        <DialogContentText>
-          {logs.length > 0 ? (
-            logs.map((log, index) => (
-              <div key={index}>
-                {log.timestamp ? log.timestamp.toDate().toLocaleString() : 'Unknown'} - {log.message}
-              </div>
-            ))
-          ) : (
-            <div>No logs found for the current user.</div>
+        <MainPanel>
+          <Box sx={{ p: 3 }}>
+            <Typography variant="h5" sx={{ fontWeight: 600, mb: 3 }}>
+              Account Settings
+            </Typography>
+
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <InfoItem>
+                <InfoIcon>
+                  <PersonIcon />
+                </InfoIcon>
+                <Box sx={{ flex: 1 }}>
+                  <Typography variant="body2" color="text.secondary">
+                    Username
+                  </Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                    {userData?.username}
+                  </Typography>
+                </Box>
+              </InfoItem>
+
+              <InfoItem>
+                <InfoIcon>
+                  <WorkIcon />
+                </InfoIcon>
+                <Box sx={{ flex: 1 }}>
+                  <Typography variant="body2" color="text.secondary">
+                    Role
+                  </Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                    {userData?.role}
+                  </Typography>
+                </Box>
+              </InfoItem>
+
+              <InfoItem>
+                <InfoIcon>
+                  <EmailIcon />
+                </InfoIcon>
+                <Box sx={{ flex: 1 }}>
+                  <Typography variant="body2" color="text.secondary">
+                    Email
+                  </Typography>
+                  {editableFields['email'] ? (
+                    <Box sx={{ mt: 1, display: 'flex', gap: 2 }}>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        value={userData?.email}
+                        onChange={(e) => handleInputChange(e, 'email')}
+                        sx={{
+                          '& .MuiOutlinedInput-root': {
+                            borderRadius: '12px',
+                          }
+                        }}
+                      />
+                      <IconButton 
+                        color="primary"
+                        onClick={() => handleSaveField('email')}
+                        sx={{ borderRadius: '12px' }}
+                      >
+                        <SaveIcon />
+                      </IconButton>
+                      <IconButton 
+                        color="error"
+                        onClick={() => handleDiscardChanges('email')}
+                        sx={{ borderRadius: '12px' }}
+                      >
+                        <CancelIcon />
+                      </IconButton>
+                    </Box>
+                  ) : (
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                      <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                        {userData?.email}
+                      </Typography>
+                      <EditButton onClick={() => handleEditField('email')}>
+                        <EditIcon fontSize="small" />
+                      </EditButton>
+                    </Box>
+                  )}
+                </Box>
+              </InfoItem>
+
+              <InfoItem>
+                <InfoIcon>
+                  <LockIcon />
+                </InfoIcon>
+                <Box sx={{ flex: 1 }}>
+                  <Typography variant="body2" color="text.secondary">
+                    Password
+                  </Typography>
+                  {editableFields['password'] ? (
+                    <Box sx={{ mt: 1, display: 'flex', gap: 2 }}>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        type={passwordVisible ? 'text' : 'password'}
+                        value={userData?.password}
+                        onChange={(e) => handleInputChange(e, 'password')}
+                        sx={{
+                          '& .MuiOutlinedInput-root': {
+                            borderRadius: '12px',
+                          }
+                        }}
+                        InputProps={{
+                          endAdornment: (
+                            <IconButton 
+                              size="small" 
+                              onClick={() => setPasswordVisible(!passwordVisible)}
+                            >
+                              {passwordVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                            </IconButton>
+                          ),
+                        }}
+                      />
+                      <IconButton 
+                        color="primary"
+                        onClick={() => handleSaveField('password')}
+                        sx={{ borderRadius: '12px' }}
+                      >
+                        <SaveIcon />
+                      </IconButton>
+                      <IconButton 
+                        color="error"
+                        onClick={() => handleDiscardChanges('password')}
+                        sx={{ borderRadius: '12px' }}
+                      >
+                        <CancelIcon />
+                      </IconButton>
+                    </Box>
+                  ) : (
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                      <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                        ********
+                      </Typography>
+                      <EditButton onClick={() => handleEditField('password')}>
+                        <EditIcon fontSize="small" />
+                      </EditButton>
+                    </Box>
+                  )}
+                </Box>
+              </InfoItem>
+            </Box>
+          </Box>
+        </MainPanel>
+      </ProfileWrapper>
+
+      {/* Activity Log Dialog */}
+      <Dialog 
+        open={showLogDialog} 
+        onClose={handleCloseLogDialog}
+        maxWidth="md"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: 3,
+            overflow: 'hidden'
+          }
+        }}
+      >
+        <DialogTitle sx={{ 
+          p: 3,
+          background: 'linear-gradient(45deg, #1a237e 30%, #283593 90%)',
+          color: 'white',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <HistoryIcon />
+            <Typography variant="h6">Activity Log</Typography>
+          </Box>
+          {logs.length > 0 && (
+            <IconButton
+              onClick={handleDownloadLog}
+              sx={{ 
+                color: 'white',
+                '&:hover': { 
+                  backgroundColor: 'rgba(255,255,255,0.1)' 
+                }
+              }}
+            >
+              <DownloadIcon />
+            </IconButton>
           )}
-        </DialogContentText>
+        </DialogTitle>
+
+        <DialogContent sx={{ p: 3 }}>
+          {logs.length > 0 ? (
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              {logs.map((log, index) => (
+                <Paper 
+                  key={index} 
+                  elevation={0}
+                  sx={{ 
+                    p: 2, 
+                    borderRadius: 3,
+                    bgcolor: 'grey.50',
+                    '&:hover': {
+                      bgcolor: 'grey.100'
+                    }
+                  }}
+                >
+                  <Typography variant="caption" color="primary" sx={{ fontWeight: 500 }}>
+                    {log.timestamp ? log.timestamp.toDate().toLocaleString() : 'Unknown'}
+                  </Typography>
+                  <Typography variant="body2" sx={{ mt: 1 }}>
+                    {log.message}
+                  </Typography>
+                </Paper>
+              ))}
+            </Box>
+          ) : (
+            <Box sx={{ 
+              py: 8, 
+              textAlign: 'center',
+              color: 'text.secondary'
+            }}>
+              <HistoryIcon sx={{ fontSize: 48, opacity: 0.5, mb: 2 }} />
+              <Typography variant="h6">
+                No activity logs found
+              </Typography>
+              <Typography variant="body2">
+                Your activity history will appear here
+              </Typography>
+            </Box>
+          )}
         </DialogContent>
-            <DialogActions>
-      {logs.length > 0 && (
-        <Button onClick={handleDownloadLog}>Download Logs</Button>
-      )}
-      <Button onClick={handleCloseLogDialog}>Close</Button>
-    </DialogActions>
       </Dialog>
-      <div class="page-footer" style={{ backgroundColor: '#000000' }}>
-      <h7 className="msg">"Manage your details here."</h7>
-    </div>
-    </>
+    </ProfileContainer>
   );
 };
 

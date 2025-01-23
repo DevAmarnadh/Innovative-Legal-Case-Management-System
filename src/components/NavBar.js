@@ -1,197 +1,274 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import Joyride, { STATUS } from 'react-joyride'; // Import Joyride for tour functionality
-import styles from '../css/NavBar.module.css'; // CSS for styling
-import Cookies from 'js-cookie'; // Cookie handling
-import logo from '../components/Assets/court3.png'; // Logo import
+import React, { useState } from 'react';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  IconButton,
+  Box,
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Avatar,
+  Popper,
+  Paper,
+  ClickAwayListener,
+  Grow,
+  Tooltip,
+} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import MenuIcon from '@mui/icons-material/Menu';
+import HomeIcon from '@mui/icons-material/Home';
+import GavelIcon from '@mui/icons-material/Gavel';
+import InboxIcon from '@mui/icons-material/Inbox';
+import PersonIcon from '@mui/icons-material/Person';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import LogoutIcon from '@mui/icons-material/Logout';
+import ContactMailIcon from '@mui/icons-material/ContactMail';
+import PeopleIcon from '@mui/icons-material/People';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { motion } from 'framer-motion';
+import Cookies from 'js-cookie';
+import '../css/NavBar.css';
 
-function NavBar() {
+const NavBar = () => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const isMobile = window.matchMedia('(max-width:960px)').matches;
   const navigate = useNavigate();
-  const location = useLocation();
-  const [isLoggedIn, setIsLoggedIn] = useState(Cookies.get('username') !== undefined);
   const username = Cookies.get('username');
   const userRole = Cookies.get('role');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const [runTour, setRunTour] = useState(false); // Control the tour run state
-  const navRef = useRef(null);
+  const email = Cookies.get('email');
 
-  // Define the steps for the tour, targeting each menu item
-  const tourSteps = [
-    {
-      target: '.home-nav',
-      content: 'Start your journey from the Home page.',
-      placement: 'bottom',
-    },
-    {
-      target: '.add-case-nav',
-      content: 'Add a new case from here.',
-      placement: 'bottom',
-    },
-    {
-      target: '.all-cases-nav',
-      content: 'View all cases in the system.',
-      placement: 'bottom',
-    },
-    {
-      target: '.lawyers-nav',
-      content: 'Browse available lawyers here.',
-      placement: 'bottom',
-    },
-    {
-      target: '.my-cases-nav',
-      content: 'Track your cases in this section.',
-      placement: 'bottom',
-    },
-    {
-      target: '.inbox-nav',
-      content: 'Check your messages in the Inbox.',
-      placement: 'bottom',
-    },
-    {
-      target: '.profile-nav',
-      content: 'Manage your profile here.',
-      placement: 'bottom',
-    },
-    {
-      target: '.contact-nav',
-      content: 'Get in touch through the Contact page.',
-      placement: 'bottom',
-    },
-  ];
-
-  // Start the tour when user lands on Add Case page
-  useEffect(() => {
-    if (location.pathname === '/add-case') {
-      setRunTour(true);
-    }
-  }, [location]);
-
-  // Logout handlers
-  const handleLogout = () => {
-    setShowLogoutModal(true);
-    setIsMenuOpen(false);
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
   };
 
-  const confirmLogout = () => {
+  const handleLogout = () => {
+    setDropdownOpen(false);
     Cookies.remove('username');
     Cookies.remove('role');
     Cookies.remove('email');
-    setIsLoggedIn(false);
     navigate('/login');
   };
 
-  const cancelLogout = () => {
-    setShowLogoutModal(false);
+  const handleAvatarClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    setDropdownOpen(!dropdownOpen);
   };
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  const handleClickAway = () => {
+    setDropdownOpen(false);
   };
 
-  const handleMenuItemClick = () => {
-    setIsMenuOpen(false);
-  };
+  const getMenuItems = () => {
+    const commonItems = [
+      { text: 'Home', icon: <HomeIcon />, path: '/MainPage' },
+      { text: 'Inbox', icon: <InboxIcon />, path: '/inbox' },
+      { text: 'Request Lawyer', icon: <PeopleIcon />, path: '/lawyers' },
+      { text: 'Contact', icon: <ContactMailIcon />, path: '/contact' },
+    ];
 
-  // Joyride callback to handle tour lifecycle events
-  const handleTourCallback = (data) => {
-    const { status } = data;
-    const finishedStatuses = [STATUS.FINISHED, STATUS.SKIPPED];
-    if (finishedStatuses.includes(status)) {
-      setRunTour(false); // Stop the tour when finished or skipped
+    const clientItems = [
+      { text: 'Add Case', icon: <AddCircleOutlineIcon />, path: '/add-case' },
+      { text: 'My Cases', icon: <GavelIcon />, path: '/my-cases' },
+    ];
+
+    const lawyerItems = [
+      { text: 'View All Cases', icon: <AssignmentIcon />, path: '/all-cases' },
+      { text: 'My Cases', icon: <GavelIcon />, path: '/my-cases' },
+    ];
+
+    const isLawyer = userRole === 'rs/Attorneys';
+    if (isLawyer) {
+      return [...commonItems, ...lawyerItems];
+    } else if (userRole === 'Owners/Clients') {
+      return [...commonItems, ...clientItems];
     }
+    return commonItems;
   };
+
+  const menuItems = getMenuItems();
+
+  const drawer = (
+    <Box sx={{ width: 250, bgcolor: '#fff', height: '100%' }}>
+      <Box sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+        <Avatar className="user-avatar" sx={{ bgcolor: 'primary.main' }}>
+          {username?.charAt(0)?.toUpperCase()}
+        </Avatar>
+        <Box>
+          <Typography variant="subtitle1" noWrap>
+            {username}
+          </Typography>
+          <Typography variant="caption" color="text.secondary" noWrap>
+            {userRole}
+          </Typography>
+        </Box>
+      </Box>
+      <List>
+        {menuItems.map((item) => (
+          <ListItem
+            button
+            key={item.text}
+            onClick={() => {
+              navigate(item.path);
+              if (isMobile) handleDrawerToggle();
+            }}
+            className="drawer-list-item"
+          >
+            <ListItemIcon>{item.icon}</ListItemIcon>
+            <ListItemText primary={item.text} />
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
 
   return (
-    isLoggedIn && (
-      <>
-        <Joyride
-          steps={tourSteps}
-          run={runTour}
-          continuous={true}
-          showProgress={true}
-          showSkipButton={true}
-          callback={handleTourCallback} // Callback for tour events
-          styles={{
-            options: {
-              arrowColor: '#fff',
-              backgroundColor: '#5e72e4',
-              overlayColor: 'rgba(0, 0, 0, 0.5)',
-              primaryColor: '#5e72e4',
-              textColor: '#fff',
-              width: 300,
-              zIndex: 1000,
-            },
-            buttonClose: {
-              color: '#fff',
-            },
-            buttonBack: {
-              marginRight: 10,
-              color: '#fff',
-            },
-          }}
-        />
+    <motion.div
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ type: 'spring', stiffness: 120, damping: 20 }}
+    >
+      <AppBar position="fixed" className="navbar">
+        <Toolbar sx={{ justifyContent: 'space-between' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { md: 'none' } }}
+              className="menu-icon"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography
+              variant="h6"
+              component="div"
+              className="navbar-logo"
+              onClick={() => navigate('/MainPage')}
+              sx={{
+                fontWeight: 'bold',
+                letterSpacing: 1,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+              }}
+            >
+              <GavelIcon /> JUSTICE PORTAL
+            </Typography>
+          </Box>
 
-        <nav className={styles.nav} ref={navRef}>
-          <div className={styles.logoContainer}>
-            <a href="/MainPage" className={styles.logoLink}>
-              <img src={logo} alt="Logo" className={styles.logo} />
-              <span className={styles.logoText}>Justice Portal</span>
-            </a>
-          </div>
-          <div className={styles.menuToggle} onClick={toggleMenu}>
-            <div className={styles.bar}></div>
-            <div className={styles.bar}></div>
-            <div className={styles.bar}></div>
-          </div>
-          <ul className={`${styles.menu} ${isMenuOpen ? styles.active : ''}`}>
-            <li className="home-nav">
-              <Link to="/MainPage" onClick={handleMenuItemClick}>Home</Link>
-            </li>
-            <li className="add-case-nav">
-              <Link to="/add-case" onClick={handleMenuItemClick}>Add Case</Link>
-            </li>
-            {userRole !== 'Owners/Clients' && (
-              <li className="all-cases-nav">
-                <Link to="/all-cases" onClick={handleMenuItemClick}>All Cases</Link>
-              </li>
-            )}
-            <li className="lawyers-nav">
-              <Link to="/lawyers" onClick={handleMenuItemClick}>Lawyers</Link>
-            </li>
-            <li className="my-cases-nav">
-              <Link to="/my-cases" onClick={handleMenuItemClick}>My Cases</Link>
-            </li>
-            <li className="inbox-nav">
-              <Link to="/inbox" onClick={handleMenuItemClick}>Inbox</Link>
-            </li>
-            <li className="profile-nav">
-              <Link to="/profile" onClick={handleMenuItemClick}>Profile</Link>
-            </li>
-            <li className="contact-nav">
-              <Link to="/contact" onClick={handleMenuItemClick}>Contact</Link>
-            </li>
-            <li className={styles.userSection}>
-              <span>{username}</span>
-              <button onClick={handleLogout}>Logout</button>
-            </li>
-          </ul>
-        </nav>
+          <Box 
+            sx={{ 
+              display: { xs: 'none', md: 'flex' }, 
+              gap: 1, 
+              alignItems: 'center',
+              justifyContent: 'center',
+              flex: '1 1 auto',
+              maxWidth: '800px',
+              mx: 4
+            }}
+          >
+            {menuItems.map((item) => (
+              <Tooltip key={item.text} title={item.text}>
+                <Button
+                  color="inherit"
+                  startIcon={item.icon}
+                  onClick={() => navigate(item.path)}
+                  className="nav-button"
+                >
+                  {item.text}
+                </Button>
+              </Tooltip>
+            ))}
+          </Box>
 
-        {/* Logout Confirmation Modal */}
-        {showLogoutModal && (
-          <div className={styles.confirmLogoutModal}>
-            <div className={styles.modalContent}>
-              <h3>Confirm Logout</h3>
-              <p>Are you sure you want to log out?</p>
-              <button className={styles.btnConfirm} onClick={confirmLogout}>Yes</button>
-              <button className={styles.btnCancel} onClick={cancelLogout}>Cancel</button>
-            </div>
-          </div>
-        )}
-      </>
-    )
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Tooltip title="Account settings">
+              <Avatar
+                className="nav-avatar"
+                onClick={handleAvatarClick}
+                sx={{ width: 40, height: 40 }}
+              >
+                {username?.charAt(0)?.toUpperCase()}
+              </Avatar>
+            </Tooltip>
+            <Popper
+              open={dropdownOpen}
+              anchorEl={anchorEl}
+              placement="bottom-end"
+              transition
+              disablePortal
+            >
+              {({ TransitionProps }) => (
+                <ClickAwayListener onClickAway={handleClickAway}>
+                  <Grow {...TransitionProps}>
+                    <Paper className="avatar-dropdown">
+                      <Box className="dropdown-user-info">
+                        <Typography className="dropdown-username">
+                          {username}
+                        </Typography>
+                        <Typography className="dropdown-email">
+                          {email}
+                        </Typography>
+                      </Box>
+                      <div className="dropdown-divider" />
+                      <Box 
+                        className="dropdown-item"
+                        onClick={() => {
+                          navigate('/profile');
+                          setDropdownOpen(false);
+                        }}
+                        sx={{ cursor: 'pointer' }}
+                      >
+                        <AccountCircleIcon className="icon" />
+                        View Profile
+                      </Box>
+                      <div className="dropdown-divider" />
+                      <Box 
+                        className="dropdown-item logout"
+                        onClick={handleLogout}
+                        sx={{ cursor: 'pointer' }}
+                      >
+                        <LogoutIcon className="icon" />
+                        Logout
+                      </Box>
+                    </Paper>
+                  </Grow>
+                </ClickAwayListener>
+              )}
+            </Popper>
+          </Box>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        variant="temporary"
+        anchor="left"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
+        ModalProps={{
+          keepMounted: true,
+        }}
+        sx={{
+          display: { xs: 'block', md: 'none' },
+          '& .MuiDrawer-paper': { 
+            boxSizing: 'border-box', 
+            width: 250,
+            bgcolor: '#fff',
+          },
+        }}
+      >
+        {drawer}
+      </Drawer>
+    </motion.div>
   );
-}
+};
 
 export default NavBar;

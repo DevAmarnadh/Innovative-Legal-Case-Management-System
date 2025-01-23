@@ -1,0 +1,292 @@
+/* NavBar Styles */
+.navbar {
+  backdrop-filter: blur(10px);
+  background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Logo Animation */
+.navbar-logo {
+  position: relative;
+  transition: all 0.3s ease;
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  color: #fff;
+}
+
+.navbar-logo:hover {
+  transform: scale(1.05);
+}
+
+.navbar-logo::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #fff, transparent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.navbar-logo:hover::after {
+  transform: scaleX(1);
+}
+
+/* Nav Button Hover Effects */
+.nav-button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  background: transparent;
+}
+
+.nav-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.nav-button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.nav-button:hover {
+  transform: translateY(-2px);
+}
+
+.nav-button .MuiButton-startIcon {
+  transition: transform 0.3s ease;
+}
+
+.nav-button:hover .MuiButton-startIcon {
+  transform: scale(1.2) rotate(5deg);
+}
+
+/* Logout Button Special Effect */
+.logout-button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.logout-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 0, 0, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.logout-button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Drawer List Items */
+.drawer-list-item {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease !important;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.drawer-list-item::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(83, 75, 174, 0.1);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.drawer-list-item:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.drawer-list-item:hover {
+  transform: translateX(5px);
+}
+
+.drawer-list-item:hover .MuiListItemIcon-root {
+  transform: scale(1.2);
+  color: var(--primary) !important;
+}
+
+/* Avatar Animation */
+.user-avatar {
+  transition: all 0.3s ease;
+}
+
+.user-avatar:hover {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* Divider Animation */
+.nav-divider {
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-divider::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    left: 100%;
+  }
+}
+
+/* Mobile Menu Icon Animation */
+.menu-icon {
+  transition: transform 0.3s ease;
+}
+
+.menu-icon:hover {
+  transform: rotate(90deg);
+}
+
+/* Drawer Animation */
+.MuiDrawer-paper {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .nav-button {
+    padding: 8px 16px;
+  }
+  
+  .navbar-logo {
+    font-size: 1.2rem;
+  }
+}
+
+/* Avatar Dropdown Styles */
+.nav-avatar {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+}
+
+.nav-avatar:hover {
+  transform: scale(1.1);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.avatar-dropdown {
+  backdrop-filter: blur(10px);
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  min-width: 240px;
+  transform-origin: top right;
+  animation: dropdownEnter 0.3s ease-out;
+}
+
+@keyframes dropdownEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.dropdown-user-info {
+  padding: 0.5rem;
+  border-radius: 12px;
+  background: #f5f5f5;
+  margin-bottom: 0.5rem;
+}
+
+.dropdown-username {
+  font-weight: 600;
+  color: #1a237e;
+}
+
+.dropdown-email {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.875rem;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+  margin: 0.5rem 0;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  color: rgba(0, 0, 0, 0.87);
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.dropdown-item .icon {
+  color: #1a237e;
+}
+
+.dropdown-item.logout {
+  color: #d32f2f;
+}
+
+.dropdown-item.logout .icon {
+  color: #d32f2f;
+}
+
+.drawer-list-item .MuiListItemIcon-root {
+  color: #1a237e;
+}

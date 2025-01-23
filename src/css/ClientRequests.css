@@ -303,3 +303,220 @@ color: #fff;
 .normal-lawyer-profile-button{
   text-decoration: underline;
 }
+
+/* Enhanced Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Enhanced Lawyer Card Styles */
+.LawyerCard {
+  animation: fadeInUp 0.5s ease-out;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.LawyerCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #1a237e, #283593);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  transform-origin: left;
+}
+
+.LawyerCard:hover::before {
+  transform: scaleX(1);
+}
+
+.LawyerCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* Profile Image Animation */
+.profile-image {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.profile-image::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #1a237e, #283593);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.LawyerCard:hover .profile-image {
+  transform: scale(1.05);
+}
+
+.LawyerCard:hover .profile-image::after {
+  opacity: 1;
+}
+
+/* Enhanced Action Button */
+.ActionButton {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.ActionButton::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transform: rotate(45deg);
+  animation: shimmer 3s infinite;
+}
+
+.ActionButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(26, 35, 126, 0.15);
+}
+
+/* Enhanced Dialog Styles */
+.MuiDialog-paper {
+  animation: fadeInUp 0.3s ease-out;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+  border-radius: 24px !important;
+  overflow: hidden;
+}
+
+.dialog-header {
+  background: linear-gradient(45deg, #1a237e, #283593);
+  padding: 24px;
+  color: white;
+}
+
+/* Enhanced Form Fields */
+.StyledTextField {
+  transition: transform 0.2s ease;
+}
+
+.StyledTextField:hover {
+  transform: translateY(-2px);
+}
+
+.StyledTextField .MuiOutlinedInput-root {
+  transition: all 0.3s ease;
+}
+
+.StyledTextField .MuiOutlinedInput-root:hover {
+  background: rgba(26, 35, 126, 0.02);
+}
+
+/* Enhanced Alert Styles */
+.MuiAlert-root {
+  animation: fadeInUp 0.3s ease-out;
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(26, 35, 126, 0.1);
+}
+
+/* Lawyer Profile Dialog */
+.lawyer-profile-header {
+  background: linear-gradient(45deg, #1a237e 0%, #283593 100%);
+  background-size: 200% 200%;
+  animation: gradientBG 15s ease infinite;
+  color: white;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.lawyer-profile-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1), transparent);
+  animation: float 6s ease-in-out infinite;
+}
+
+.expertise-chip {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.expertise-chip:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(26, 35, 126, 0.15);
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .LawyerCard {
+    margin: 8px;
+  }
+  
+  .lawyer-profile-header {
+    padding: 24px;
+  }
+  
+  .expertise-chip {
+    margin: 4px;
+  }
+}

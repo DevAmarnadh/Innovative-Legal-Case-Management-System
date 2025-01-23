@@ -214,3 +214,191 @@ button:hover {
     color: blue;
   }
 }
+
+/* Enhanced Animations */
+@keyframes slideIn {
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.MuiDrawer-paper {
+  animation: slideIn 0.5s ease-out;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08) !important;
+}
+
+.StyledListItem:hover {
+  transform: translateX(8px) !important;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.StyledMessageCard {
+  animation: fadeIn 0.5s ease-out;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.StyledMessageCard:hover {
+  transform: translateX(8px) scale(1.01) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.ContactButton {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease !important;
+}
+
+.ContactButton:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 6px 20px rgba(26, 35, 126, 0.15) !important;
+}
+
+.ContactButton::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transform: rotate(45deg);
+  animation: shimmer 3s infinite;
+}
+
+.StyledInboxHeader {
+  animation: fadeIn 0.8s ease-out;
+  background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.StyledInboxHeader::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1), transparent);
+  animation: pulse 3s infinite;
+}
+
+.MessageTypeChip {
+  transition: all 0.3s ease !important;
+}
+
+.MessageTypeChip:hover {
+  transform: scale(1.05) !important;
+}
+
+.StatsChip {
+  animation: fadeIn 0.5s ease-out;
+  transition: all 0.3s ease !important;
+}
+
+.StatsChip:hover {
+  transform: scale(1.05) !important;
+  box-shadow: 0 2px 8px rgba(26, 35, 126, 0.15) !important;
+}
+
+/* Enhanced Dialog Animations */
+.MuiDialog-paper {
+  animation: fadeIn 0.3s ease-out !important;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+}
+
+.MuiDialog-paper .MuiDialogTitle-root {
+  background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+  color: white;
+  padding: 16px 24px;
+}
+
+.MuiDialog-paper .MuiDialogContent-root {
+  padding: 24px;
+}
+
+/* Enhanced Alert Animation */
+.MuiAlert-root {
+  animation: slideIn 0.3s ease-out;
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(26, 35, 126, 0.1);
+}
+
+/* Enhanced Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(26, 35, 126, 0.3);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(26, 35, 126, 0.5);
+}
+
+/* Responsive Enhancements */
+@media screen and (max-width: 768px) {
+  .MuiDrawer-paper {
+    width: 100% !important;
+  }
+  
+  .StyledMessageCard {
+    margin: 8px !important;
+  }
+  
+  .ContactButton {
+    width: 100% !important;
+  }
+}
