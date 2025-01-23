@@ -56,6 +56,16 @@ const StyledCard = styled(Paper)(({ theme }) => ({
   transition: 'all 0.3s ease',
   position: 'relative',
   overflow: 'hidden',
+  willChange: 'transform',
+  '@media (max-width: 600px)': {
+    transform: 'translateZ(0)',
+    '&:before': {
+      animation: 'none',
+    },
+    '&:hover': {
+      transform: 'none',
+    }
+  },
   '&:before': {
     content: '""',
     position: 'absolute',
@@ -66,9 +76,11 @@ const StyledCard = styled(Paper)(({ theme }) => ({
     background: 'linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.8), rgba(255,255,255,0) 70%)',
     animation: `${shimmer} 3s infinite linear`,
   },
-  '&:hover': {
-    transform: 'translateY(-4px)',
-    boxShadow: '0 12px 48px 0 rgba(31, 38, 135, 0.25)',
+  [theme.breakpoints.up('md')]: {
+    '&:hover': {
+      transform: 'translateY(-4px)',
+      boxShadow: '0 12px 48px 0 rgba(31, 38, 135, 0.25)',
+    }
   }
 }));
 
@@ -307,11 +319,31 @@ const LandingPage = () => {
           backgroundImage: `linear-gradient(rgba(26, 35, 126, 0.92), rgba(26, 35, 126, 0.92)), url(${backgroundImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
+          backgroundAttachment: { xs: 'scroll', md: 'fixed' },
           color: 'white',
+          willChange: 'transform',
+          '@media (max-width: 600px)': {
+            '& > *': {
+              transform: 'translateZ(0)',
+            }
+          }
         }}>
-          <FloatingElement sx={{ bottom: '20%', left: '10%' }} delay={1} />
-          <FloatingElement sx={{ top: '30%', right: '5%' }} delay={3} />
+          <FloatingElement 
+            sx={{ 
+              bottom: '20%', 
+              left: '10%',
+              display: { xs: 'none', md: 'block' }
+            }} 
+            delay={1} 
+          />
+          <FloatingElement 
+            sx={{ 
+              top: '30%', 
+              right: '5%',
+              display: { xs: 'none', md: 'block' }
+            }} 
+            delay={3} 
+          />
           <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
             <Typography
               variant="h3"
@@ -393,11 +425,31 @@ const LandingPage = () => {
           backgroundImage: `linear-gradient(rgba(26, 35, 126, 0.95), rgba(26, 35, 126, 0.95)), url(${backgroundImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
+          backgroundAttachment: { xs: 'scroll', md: 'fixed' },
           color: 'white',
+          willChange: 'transform',
+          '@media (max-width: 600px)': {
+            '& > *': {
+              transform: 'translateZ(0)',
+            }
+          }
         }}>
-          <FloatingElement sx={{ top: '20%', left: '5%' }} delay={1} />
-          <FloatingElement sx={{ bottom: '10%', right: '5%' }} delay={2} />
+          <FloatingElement 
+            sx={{ 
+              top: '20%', 
+              left: '5%',
+              display: { xs: 'none', md: 'block' }
+            }} 
+            delay={1} 
+          />
+          <FloatingElement 
+            sx={{ 
+              bottom: '10%', 
+              right: '5%',
+              display: { xs: 'none', md: 'block' }
+            }} 
+            delay={2} 
+          />
           <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
             <Typography
               variant="h3"
