@@ -52,6 +52,10 @@ const departments = [
 const Register = () => {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
+  const [coordinates, setCoordinates] = useState({
+    latitude: null,
+    longitude: null
+  });
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -89,8 +93,12 @@ const Register = () => {
           try {
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
+            setCoordinates({
+              latitude: lat,
+              longitude: lon
+            });
 
-            const apiKey = 'a5ac45accf3a4ee6a8397c5dca5e7fd6'; // Replace with your actual API key
+            const apiKey = 'a5ac45accf3a4ee6a8397c5dca5e7fd6';
             const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json`, {
               params: {
                 q: `${lat},${lon}`,
@@ -100,14 +108,15 @@ const Register = () => {
 
             const locationDetails = response.data.results[0]?.components;
             if (locationDetails) {
+              const locationData = {
+                latitude: lat,
+                longitude: lon,
+                state: locationDetails.state || 'Unknown',
+                country: locationDetails.country || 'Unknown',
+              };
               setFormData({
                 ...formData,
-                location: {
-                  latitude,
-                  longitude,
-                  state: locationDetails.state || 'Unknown',
-                  country: locationDetails.country || 'Unknown',
-                }
+                location: locationData
               });
               setRegistrationMessage('Location verified successfully!');
               setOpenSnackbar(true);
@@ -155,11 +164,11 @@ const Register = () => {
 
       const userData = {
         username: lowercaseUsername,
-        email,
-        role,
-        password,
-        location,
-        serviceType, // Include the service type in user data
+        email: formData.email,
+        role: formData.role,
+        password: formData.password,
+        locationData: formData.location,
+        serviceType: formData.serviceType,
       };
 
       if (formData.role === 'Lawyers/Attorneys') {
@@ -296,8 +305,8 @@ const Register = () => {
                 <br />
                 <div className="input-field7">
                   <select
-                    value={serviceType}
-                    onChange={(e) => setServiceType(e.target.value)}
+                    value={formData.serviceType}
+                    onChange={(e) => setFormData({ ...formData, serviceType: e.target.value })}
                     className="custom-select"
                     required
                   >
