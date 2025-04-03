@@ -144,6 +144,22 @@ const Register = () => {
 
   const handleRegistration = async (e) => {
     e.preventDefault();
+    
+    // Validate all required fields
+    if (!formData.username || !formData.email || !formData.password || !formData.role) {
+      setRegistrationMessage('Please fill in all required fields');
+      setOpenSnackbar(true);
+      return;
+    }
+
+    // Additional validation for lawyers
+    if (formData.role === 'Lawyers/Attorneys' && 
+        (!formData.department || !formData.experience || !formData.boardOfCouncil || !formData.llbCertificateNumber)) {
+      setRegistrationMessage('Please fill in all required fields for lawyers');
+      setOpenSnackbar(true);
+      return;
+    }
+
     if (!formData.location) {
       setRegistrationMessage('Please verify your location first.');
       setOpenSnackbar(true);
