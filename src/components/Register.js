@@ -135,6 +135,63 @@ const Register = () => {
   };
 
   const handleNext = () => {
+    // Validate current step fields
+    let isValid = true;
+    let errorMessage = '';
+
+    switch (activeStep) {
+      case 0: // Basic Information
+        if (!formData.username.trim()) {
+          isValid = false;
+          errorMessage = 'Username is required';
+        } else if (!formData.email.trim()) {
+          isValid = false;
+          errorMessage = 'Email is required';
+        } else if (!validateEmail(formData.email)) {
+          isValid = false;
+          errorMessage = 'Please enter a valid email address';
+        } else if (!formData.password) {
+          isValid = false;
+          errorMessage = 'Password is required';
+        } else if (!validatePassword(formData.password)) {
+          isValid = false;
+          errorMessage = 'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character';
+        }
+        break;
+      case 1: // Professional Details
+        if (!formData.role) {
+          isValid = false;
+          errorMessage = 'Role is required';
+        } else if (formData.role === 'Lawyers/Attorneys') {
+          if (!formData.department) {
+            isValid = false;
+            errorMessage = 'Department is required';
+          } else if (!formData.experience) {
+            isValid = false;
+            errorMessage = 'Experience is required';
+          } else if (!formData.boardOfCouncil) {
+            isValid = false;
+            errorMessage = 'Board of Council is required';
+          } else if (!formData.llbCertificateNumber) {
+            isValid = false;
+            errorMessage = 'LLB Certificate Number is required';
+          }
+        }
+        break;
+      case 2: // Location Verification
+        if (!formData.location) {
+          isValid = false;
+          errorMessage = 'Please verify your location';
+        }
+        break;
+    }
+
+    if (!isValid) {
+      setRegistrationMessage(errorMessage);
+      setOpenSnackbar(true);
+      return;
+    }
+
     setActiveStep((prevStep) => prevStep + 1);
   };
 
@@ -214,6 +271,18 @@ const Register = () => {
     }
   };
 
+  // Add password validation function
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
+  // Add email validation function
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const getStepContent = (step) => {
     switch (step) {
       case 0:
@@ -225,6 +294,8 @@ const Register = () => {
               required
               value={formData.username}
               onChange={handleChange('username')}
+              error={activeStep === 0 && !formData.username.trim()}
+              helperText={activeStep === 0 && !formData.username.trim() ? 'Username is required' : ''}
               sx={{ mb: 2 }}
             />
             <TextField
@@ -234,6 +305,8 @@ const Register = () => {
               required
               value={formData.email}
               onChange={handleChange('email')}
+              error={activeStep === 0 && (!formData.email.trim() || !validateEmail(formData.email))}
+              helperText={activeStep === 0 && (!formData.email.trim() ? 'Email is required' : !validateEmail(formData.email) ? 'Please enter a valid email address' : '')}
               sx={{ mb: 2 }}
             />
             <TextField
@@ -243,6 +316,8 @@ const Register = () => {
               required
               value={formData.password}
               onChange={handleChange('password')}
+              error={activeStep === 0 && (!formData.password || !validatePassword(formData.password))}
+              helperText={activeStep === 0 && (!formData.password ? 'Password is required' : !validatePassword(formData.password) ? 'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character' : '')}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -283,6 +358,8 @@ const Register = () => {
                   required
                   value={formData.department || ''}
                   onChange={handleChange('department')}
+                  error={activeStep === 1 && !formData.department}
+                  helperText={activeStep === 1 && !formData.department ? 'Department is required' : ''}
                   sx={{ mb: 2 }}
                 >
                   {departments.map((dept) => (
@@ -295,6 +372,8 @@ const Register = () => {
                   required
                   value={formData.experience}
                   onChange={handleChange('experience')}
+                  error={activeStep === 1 && !formData.experience}
+                  helperText={activeStep === 1 && !formData.experience ? 'Experience is required' : ''}
                   sx={{ mb: 2 }}
                 />
                 <TextField
@@ -304,6 +383,8 @@ const Register = () => {
                   required
                   value={formData.boardOfCouncil}
                   onChange={handleChange('boardOfCouncil')}
+                  error={activeStep === 1 && !formData.boardOfCouncil}
+                  helperText={activeStep === 1 && !formData.boardOfCouncil ? 'Board of Council is required' : ''}
                   sx={{ mb: 2 }}
                 >
                   {indianStates.map((state) => (
@@ -316,6 +397,8 @@ const Register = () => {
                   required
                   value={formData.llbCertificateNumber}
                   onChange={handleChange('llbCertificateNumber')}
+                  error={activeStep === 1 && !formData.llbCertificateNumber}
+                  helperText={activeStep === 1 && !formData.llbCertificateNumber ? 'LLB Certificate Number is required' : ''}
                   sx={{ mb: 2 }}
                 />
                 <br />
